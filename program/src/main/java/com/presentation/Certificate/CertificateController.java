@@ -7,10 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-
 import com.datastorage.SQLServerDatabase;
 import com.domain.Certificate;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
