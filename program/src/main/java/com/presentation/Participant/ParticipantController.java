@@ -128,8 +128,6 @@ public class ParticipantController implements Initializable {
             updateButton();
             isClicked = false;
         }
-        
-
     }
 
     public void initialize(URL url, ResourceBundle rb) {
@@ -254,7 +252,7 @@ public class ParticipantController implements Initializable {
         tfDateMonth.setText(tvParticipants.getSelectionModel().getSelectedItem().getBirthdate());
         tfDateDay.setText(tvParticipants.getSelectionModel().getSelectedItem().getBirthdate());
 
-                    // Parse the date string and set each part separately
+        // Parse the date string and set each part separately
         String[] dateParts = selectedParticipant.getBirthdate().split("-");
             if (dateParts.length == 3) {
                 tfDateYear.setText(dateParts[0]);

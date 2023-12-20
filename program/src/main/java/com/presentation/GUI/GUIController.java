@@ -35,7 +35,10 @@ public class GUIController implements Initializable {
             stage = (Stage) btnParticipants.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("../Participant/layoutParticipant.fxml"));
         } 
-        
+        if (event.getSource() == btnCourses) {
+            stage = (Stage) btnCourses.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("../Course/layoutCourse.fxml"));
+        }
         if (event.getSource() == btnRegistrations) {
             stage = (Stage) btnRegistrations.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("../Registration/layoutRegistration.fxml"));
@@ -45,9 +48,6 @@ public class GUIController implements Initializable {
             stage = (Stage) btnCertificate.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("../Certificate/layoutCertificate.fxml"));
         } 
-        else if (event.getSource() == btnCourses) {
-
-        }
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
