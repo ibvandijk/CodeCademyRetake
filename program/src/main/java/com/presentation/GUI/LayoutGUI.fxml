@@ -15,6 +15,6 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Button fx:id="btnCertificate" layoutX="417.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="87.0" text="Certificates" />
+      <Button fx:id="btnStatistics" layoutX="417.0" layoutY="365.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="87.0" text="Statistics" />
    </children>
 </AnchorPane>

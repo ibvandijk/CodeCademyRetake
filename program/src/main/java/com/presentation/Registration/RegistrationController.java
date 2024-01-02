@@ -19,6 +19,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -52,6 +53,12 @@ public class RegistrationController implements Initializable{
     private TableColumn<Registration, String> colDate;
 
     @FXML
+    private ComboBox<String> tfEmails;
+
+    @FXML
+    private ComboBox<String> tfCourses;
+
+    @FXML
     private TextField tfDateYear;
 
     @FXML
@@ -59,12 +66,6 @@ public class RegistrationController implements Initializable{
 
     @FXML
     private TextField tfDateDay;
-
-    @FXML
-    private TextField tfEmail;
-
-    @FXML
-    private TextField tfCourseName;
     
     @FXML
     private TableView<Registration> tvRegistrations;
@@ -102,6 +103,7 @@ public class RegistrationController implements Initializable{
 
     public void initialize(URL url, ResourceBundle rb) {
         showRegistration();
+        initializeComboBox();
     }
 
     public void backToHome() throws IOException{
@@ -152,53 +154,63 @@ public class RegistrationController implements Initializable{
         colDate.setCellValueFactory(new PropertyValueFactory<Registration, String>("Date"));
 
         tvRegistrations.setItems(registrationsList);
-
     }
 
     private void insertButton() {
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "INSERT INTO Registration" + " VALUES (?, ?, ?)";
-
-
+        String query = "INSERT INTO Registration VALUES (?, ?, ?)";
+        
         try {
+            String selectedEmail = tfEmails.getValue();
+            String selectedCourse = tfCourses.getValue();
             String date = String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText());
             PreparedStatement stm = conn.prepareStatement(query);
-
-            stm.setString(1, tfEmail.getText());
-            stm.setString(2, tfCourseName.getText());
+        
+            stm.setString(1, selectedEmail);
+            stm.setString(2, selectedCourse);
             stm.setDate(3, Date.valueOf(date));
-
+        
             stm.execute();
-
+        
             clear();
-
             showRegistration();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
+    
 
     public void deleteButton() {
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "DELETE FROM Registration where EmailAddress = ?";
-
-        try {
-            PreparedStatement stm = conn.prepareStatement(query);
-            stm.setString(1, tvRegistrations.getSelectionModel().getSelectedItem().getEmail());
-        
-            stm.execute();
-            showRegistration();
-        } catch (Exception e) {
-            System.out.println(e);
+        Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
+    
+        if (selectedRegistration != null) {
+            String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ?";
+    
+            try {
+                PreparedStatement stm = conn.prepareStatement(query);
+                stm.setString(1, selectedRegistration.getEmail());
+                stm.setString(2, selectedRegistration.getCourseName());
+    
+                stm.execute();
+                showRegistration();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+        } else {
+            System.out.println("No registration selected for deletion.");
         }
     }
+    
+    
+   
 
     public void setText() {
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
     
         if (selectedRegistration != null) {
-            tfEmail.setText(selectedRegistration.getEmail());
-            tfCourseName.setText(selectedRegistration.getCourseName());
+            tfEmails.setValue(selectedRegistration.getEmail());
+            tfCourses.setValue(selectedRegistration.getCourseName());
     
             // Parse the date string and set each part separately
             String[] dateParts = selectedRegistration.getDate().split("-");
@@ -212,39 +224,83 @@ public class RegistrationController implements Initializable{
         }
     }
     
+    
 
     public void updateButton() {
-        
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-
-             try {
-                String value1 = tfEmail.getText();
-                String value2 = String.valueOf(tfCourseName.getText());
-                Date value3 = Date.valueOf(String.valueOf(tfDateYear.getText())  + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText()));
-                System.out.println("Put Text in");
-
-                String query = "UPDATE Registration SET EmailAddress= '" + value1 + "' ,CourseName= '" + value2 + "' ,Date= '" +
-                        value3 + "' where EmailAddress= '" + value1 + "' ";
-                         System.out.println("query");
- 
-                PreparedStatement stm = conn.prepareStatement(query);
-
-                
-                stm.execute();
-                System.out.println("execute");
-                clear();
-                showRegistration();
-
+    
+        try {
+            String selectedEmail = tfEmails.getValue(); // Get the selected email
+            String selectedCourse = tfCourses.getValue(); // Get the selected course
+            Date value3 = Date.valueOf(String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText()));
+    
+            String query = "UPDATE Registration SET CourseName= '" + selectedCourse + "' ,Date= '" +
+                    value3 + "' WHERE EmailAddress= '" + selectedEmail + "' ";
+    
+            PreparedStatement stm = conn.prepareStatement(query);
+    
+            stm.execute();
+            clear();
+            showRegistration();
         } catch (Exception e) {
-
             System.out.println(e);
-
         }
     }
+    
+    
+    private void initializeComboBox() {
+        ObservableList<String> emailsList = getEmails();
+        tfEmails.setItems(emailsList);
+    
+        ObservableList<String> coursesList = getCourseNames();
+        tfCourses.setItems(coursesList);
+    }
+    
+
+    private ObservableList<String> getEmails() {
+        ObservableList<String> emailsList = FXCollections.observableArrayList();
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "SELECT EmailAddress FROM Participant;";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                emailsList.add(rs.getString("EmailAddress"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return emailsList;
+    }
+
+    private ObservableList<String> getCourseNames() {
+        ObservableList<String> courseNamesList = FXCollections.observableArrayList();
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "SELECT CourseName FROM Course;";
+        
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+    
+            while (rs.next()) {
+                courseNamesList.add(rs.getString("CourseName"));
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+        return courseNamesList;
+    }
+    
+
 
     public void clear() {
-        tfEmail.clear();
-        tfCourseName.clear();
+        tfEmails.setValue(null);
+        tfCourses.setValue(null);
         tfDateYear.clear();
         tfDateMonth.clear();
         tfDateDay.clear();
