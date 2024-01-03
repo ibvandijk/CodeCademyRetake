@@ -7,7 +7,6 @@ import org.verdictdb.commons.DBTablePrinter;
 import com.domain.Participant;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableView;
 
 public class ParticipantDAO {
 
@@ -139,5 +138,24 @@ public class ParticipantDAO {
             e.printStackTrace();
         }
         return participants;
+    }
+
+    public static ObservableList<String> getEmails() {
+        ObservableList<String> emailsList = FXCollections.observableArrayList();
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "SELECT EmailAddress FROM Participant;";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                emailsList.add(rs.getString("EmailAddress"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return emailsList;
     }
 }

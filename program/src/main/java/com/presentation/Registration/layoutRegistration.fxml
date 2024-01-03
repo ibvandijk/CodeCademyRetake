@@ -51,10 +51,10 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="btnInsert" layoutX="80.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Insert" />
-      <Button fx:id="btnUpdate" layoutX="157.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="78.0" text="Update date" />
-      <Button fx:id="btnDelete" layoutX="242.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="78.0" text="Delete" />
+      <Button fx:id="btnInsert" layoutX="55.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Insert" />
+      <Button fx:id="btnUpdate" layoutX="130.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="95.0" text="Update date" />
+      <Button fx:id="btnDelete" layoutX="233.0" layoutY="291.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="78.0" text="Delete" />
       <Button fx:id="btnBack" layoutX="36.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Back" />
-      <Button fx:id="btnClear" layoutX="80.0" layoutY="377.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="240.0" text="Clear Fields" />
+      <Button fx:id="btnClear" layoutX="55.0" layoutY="326.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="255.0" text="Clear Fields" />
    </children>
 </AnchorPane>

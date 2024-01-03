@@ -5,17 +5,12 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-
 import com.datastorage.ParticipantDAO;
 import com.datastorage.SQLServerDatabase;
 import com.domain.Participant;
 import com.presentation.DetailsParticipant.DetailParticipantController;
-
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
