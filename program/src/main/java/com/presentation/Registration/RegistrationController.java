@@ -1,6 +1,8 @@
 package com.presentation.Registration;
 
 import com.domain.Registration;
+import com.presentation.Validation.InputValidation;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,29 +74,30 @@ public class RegistrationController implements Initializable{
 
     @FXML
     void handleButtonAction(ActionEvent event) throws IOException {
-
-        
         if (event.getSource() == btnInsert) {
-            insertButton();
-        } else if (event.getSource() == btnDelete) {
+            if (validateInput()) {
+                insertButton();
+            }
+        }   
+        else if (event.getSource() == btnDelete) {
             deleteButton();
         } 
         if (event.getSource() == btnClear) {
             isClicked = true;
             clear();    
         } 
+        if(event.getSource() == btnBack) {
+            backToHome();
+        }
         if(event.getSource() == btnUpdate && !isClicked){
             isClicked = true;
             setText();
         } else {
-            updateButton();
-            isClicked = false;
+            if (validateInput()) {
+                updateButton();
+                isClicked = false;
+            }
         }
-
-        if(event.getSource() == btnBack) {
-            backToHome();
-        }
-
     }
 
     public void initialize(URL url, ResourceBundle rb) {
@@ -185,5 +188,20 @@ public class RegistrationController implements Initializable{
         tfDateYear.clear();
         tfDateMonth.clear();
         tfDateDay.clear();
+    }
+
+    private boolean validateInput() {
+
+        // Check if the date is correct
+        int day = Integer.parseInt(tfDateDay.getText());
+        int month = Integer.parseInt(tfDateMonth.getText());
+        int year = Integer.parseInt(tfDateYear.getText());
+        
+        if (!InputValidation.isValidDate(day, month, year)) {
+            InputValidation.showError("Invalid date. \nPlease enter a valid date.");
+                return false;
+        }
+
+        return true;
     }
 }
