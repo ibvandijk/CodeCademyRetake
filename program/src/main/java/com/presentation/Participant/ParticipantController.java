@@ -11,6 +11,7 @@ import com.datastorage.ParticipantDAO;
 import com.datastorage.SQLServerDatabase;
 import com.domain.Participant;
 import com.presentation.DetailsParticipant.DetailParticipantController;
+import com.presentation.Validation.InputValidation;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -112,8 +113,10 @@ public class ParticipantController implements Initializable {
     @FXML
     void handleButtonAction(ActionEvent event) throws IOException {
         if (event.getSource() == btnInsert) {
-            insertButton();
-        } 
+            if (validateInput()) {
+                    insertButton();
+            }
+        }
         else if (event.getSource() == btnDelete) {
             deleteButton();
         } 
@@ -122,15 +125,17 @@ public class ParticipantController implements Initializable {
             clear();    
         } 
         else if (event.getSource() == btnUpdate && isClicked) {
-            updateButton();
-            isClicked = false;
-        }
-        else if(event.getSource() == btnBack) {
-            backToHome();
+            if (validateInput()) {
+                updateButton();
+                isClicked = false;
+            }
         }
         else if (event.getSource() == btnUpdate && !isClicked) {
             isClicked = true;
             setText();
+        }
+        else if(event.getSource() == btnBack) {
+            backToHome();
         }
         else if (event.getSource() == btnDetails) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../DetailsParticipant/layoutDetailParticipant.fxml"));
@@ -299,4 +304,30 @@ public class ParticipantController implements Initializable {
         tfCountry.clear();
     }
 
+    private boolean validateInput() {
+        // Check if email is right
+        if (!InputValidation.isValidEmail(tfEmail.getText())) {
+            InputValidation.showError("Invalid email format. \nPlease enter a valid email address.");
+                return false;
+        }
+
+        // Checking if postalcode is right NNNN<space>MM
+        if (!InputValidation.isValidDutchPostalCode(tfPostalCode.getText())) {
+            InputValidation.showError("Invalid Dutch postal code. Please enter a valid postal code. \nIt needs to have 4 numbers, a space and two uppercase letters.");
+                return false;
+        }
+
+        // Check if the date is correct
+        int day = Integer.parseInt(tfDateDay.getText());
+        int month = Integer.parseInt(tfDateMonth.getText());
+        int year = Integer.parseInt(tfDateYear.getText());
+        
+        if (!InputValidation.isValidDate(day, month, year)) {
+            InputValidation.showError("Invalid date. \nPlease enter a valid date.");
+                return false;
+        }
+
+        return true;
+    }
+   
 }
