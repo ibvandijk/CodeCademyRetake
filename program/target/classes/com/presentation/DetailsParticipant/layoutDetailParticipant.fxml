@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="618.0" prefWidth="818.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.presentation.DetailsParticipant.DetailParticipantController">
+   <children>
+      <TabPane layoutX="14.0" layoutY="24.0" prefHeight="581.0" prefWidth="785.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Gegevens">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox layoutX="25.0" layoutY="35.0" prefHeight="130.0" prefWidth="77.0">
+                           <children>
+                              <Label fx:id="lEmail" prefHeight="20.0" prefWidth="44.0" text="Email">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="lGender" prefHeight="20.0" prefWidth="77.0" text="Gender">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="lBirthday" prefHeight="20.0" prefWidth="77.0" text="Birthday">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="lAddress" text="Address">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="lPostalCode" prefHeight="20.0" prefWidth="81.0" text="PostalCode">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="lCity" prefHeight="20.0" prefWidth="73.0" text="City">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <Label fx:id="lCountry" text="Country">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="131.0" layoutY="35.0" prefHeight="244.0" prefWidth="262.0">
+                           <children>
+                              <Text fx:id="efEmail" strokeType="OUTSIDE" strokeWidth="0.0" text="email" wrappingWidth="234.50390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text fx:id="efGender" strokeType="OUTSIDE" strokeWidth="0.0" text="gender" wrappingWidth="234.50390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="17.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text fx:id="efBirthday" strokeType="OUTSIDE" strokeWidth="0.0" text="birthday" wrappingWidth="234.50390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="17.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text fx:id="efAddress" strokeType="OUTSIDE" strokeWidth="0.0" text="adres" wrappingWidth="234.50390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text fx:id="efPostalCode" strokeType="OUTSIDE" strokeWidth="0.0" text="postalcode" wrappingWidth="241.50390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text fx:id="efCity" strokeType="OUTSIDE" strokeWidth="0.0" text="city" wrappingWidth="244.50390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Text fx:id="efCountry" strokeType="OUTSIDE" strokeWidth="0.0" text="country" wrappingWidth="73.50390625">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Courses">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView layoutX="14.0" layoutY="14.0" prefHeight="504.0" prefWidth="685.0">
+                          <columns>
+                            <TableColumn fx:id="colCourses" prefWidth="684.0" text="Courses" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>

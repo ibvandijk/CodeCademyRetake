@@ -179,7 +179,6 @@ public class RegistrationController implements Initializable{
         }
     }
     
-
     public void deleteButton() {
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
@@ -202,9 +201,6 @@ public class RegistrationController implements Initializable{
         }
     }
     
-    
-   
-
     public void setText() {
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
     
@@ -223,8 +219,6 @@ public class RegistrationController implements Initializable{
             System.out.println("Set Text in");
         }
     }
-    
-    
 
     public void updateButton() {
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
@@ -234,10 +228,15 @@ public class RegistrationController implements Initializable{
             String selectedCourse = tfCourses.getValue(); // Get the selected course
             Date value3 = Date.valueOf(String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText()));
     
-            String query = "UPDATE Registration SET CourseName= '" + selectedCourse + "' ,Date= '" +
-                    value3 + "' WHERE EmailAddress= '" + selectedEmail + "' ";
-    
+            String query = "UPDATE Registration SET CourseName = ?, Date = ? WHERE EmailAddress = ?";
             PreparedStatement stm = conn.prepareStatement(query);
+    
+            // Set the new values for course name and date
+            stm.setString(1, selectedCourse);
+            stm.setDate(2, value3);
+    
+            // Specify the email address in the WHERE clause to identify the record
+            stm.setString(3, selectedEmail);
     
             stm.execute();
             clear();
@@ -245,8 +244,7 @@ public class RegistrationController implements Initializable{
         } catch (Exception e) {
             System.out.println(e);
         }
-    }
-    
+    } 
     
     private void initializeComboBox() {
         ObservableList<String> emailsList = getEmails();
@@ -256,7 +254,6 @@ public class RegistrationController implements Initializable{
         tfCourses.setItems(coursesList);
     }
     
-
     private ObservableList<String> getEmails() {
         ObservableList<String> emailsList = FXCollections.observableArrayList();
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
@@ -296,8 +293,6 @@ public class RegistrationController implements Initializable{
         return courseNamesList;
     }
     
-
-
     public void clear() {
         tfEmails.setValue(null);
         tfCourses.setValue(null);

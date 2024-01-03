@@ -2,21 +2,22 @@ package com.datastorage;
 
 import java.sql.*;
 import java.time.LocalDate;
-//import java.util.ArrayList;
+
 import org.verdictdb.commons.DBTablePrinter;
-//import com.domain.Participant;
+import com.domain.Participant;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 
 public class ParticipantDAO {
 
-    //private ArrayList<Participant> participants;
-    
     String empNo;
     Connection conn;
     Statement stmt;
     ResultSet rs;
+
     
     public static void main(String[] args) {
-        
         try{
             SQLServerDatabase.getDatabase().connect();
              System.out.println("connected!");
@@ -25,7 +26,6 @@ public class ParticipantDAO {
          }
 
          printParticipant();
-         
     }
 
     public static void printParticipant() {
@@ -43,67 +43,101 @@ public class ParticipantDAO {
         }
     }
 
-    public static void addParticipant(String email, String name, LocalDate  birthdate, String gender, String address, String city, String country) {
-        try { Connection db = SQLServerDatabase.getDatabase().getConnection();
-            // Prints full table of Participant
-            String sql = "INSERT INTO PARTICIPANT" + " VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = db.prepareStatement(sql);
-            statement.setString(1, email);
-            statement.setString(2, name);
-            statement.setString(3, String.valueOf(birthdate));
-            statement.setString(4, gender);
-            statement.setString(5, address);
-            statement.setString(6, city);
-            statement.setString(7, country);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public static void deleteParticipantByEmail(String email) {
+        System.out.println("Delete Participant Method Called");
+    
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "DELETE FROM Participant where EmailAddress = ?";
+    
+        try {
+            PreparedStatement stm = conn.prepareStatement(query);
+            stm.setString(1, email);
+    
+            stm.execute();
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("\n Participant Added!");
+            System.out.println(e);
         }
     }
 
-    public static void updateParticipant(String emailAddress, String name, LocalDate birthdate, String gender, String address, String postalCode, String city, String country) {
+    public static void insertParticipant(String email, String name, LocalDate birthdate, String gender, String address, String postalCode, String city, String country) {
+        try {
+            Connection conn = SQLServerDatabase.getDatabase().getConnection();
+            String query = "INSERT INTO PARTICIPANT VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+            String birthdateStr = String.valueOf(birthdate.getYear()) + "-" + String.valueOf(birthdate.getMonthValue()) + "-" + String.valueOf(birthdate.getDayOfMonth());
+   
+            PreparedStatement stm = conn.prepareStatement(query);
+    
+            stm.setString(1, email);
+            stm.setString(2, name);
+            stm.setDate(3, Date.valueOf(birthdateStr));
+            stm.setString(4, gender);
+            stm.setString(5, address);
+            stm.setString(6, postalCode);
+            stm.setString(7, city);
+            stm.setString(8, country);
+    
+            stm.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ObservableList<Participant> getParticipants() {
+        ObservableList<Participant> participants = FXCollections.observableArrayList();
+        try {
+            Connection conn = SQLServerDatabase.getDatabase().getConnection();
+            String query = "SELECT * FROM Participant;";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                Participant participant = new Participant(
+                        rs.getString("EmailAddress"),
+                        rs.getString("Name"),
+                        rs.getDate("BirthDate").toString(),
+                        rs.getString("Gender"),
+                        rs.getString("Address"),
+                        rs.getString("PostalCode"),
+                        rs.getString("City"),
+                        rs.getString("Country"));
+
+                participants.add(participant);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return participants;
+    }
+    
+    
+    // Voor de detailpagina van participant
+    public static ObservableList<Participant> getParticipantByEmail(String email) {
+        ObservableList<Participant> participants = FXCollections.observableArrayList();
         try {
             Connection db = SQLServerDatabase.getDatabase().getConnection();
-            // Updates records
-            String sql = "UPDATE Participant SET Name = ?, Birthdate = ?, Gender = ?, Address = ?, PostalCode = ?, City = ?, Country = ? WHERE EmailAddress = ?";
-            PreparedStatement statement = db.prepareStatement(sql);
-    
-            statement.setString(1, name);
-            statement.setString(2, String.valueOf(birthdate));
-            statement.setString(3, gender);
-            statement.setString(4, address);
-            statement.setString(5, postalCode);
-            statement.setString(6, city);
-            statement.setString(7, country);
-            statement.setString(8, emailAddress);
-    
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("\n Participant updated!");
-        }
-    }
-    
-
-    public static void GetNameParticipant() {
-        try { Connection db = SQLServerDatabase.getDatabase().getConnection();
-            // Prints full table of Participant
-            PreparedStatement statement = db.prepareStatement("SELECT Name FROM Participant;");
+            PreparedStatement statement = db.prepareStatement("SELECT * FROM Participant WHERE EmailAddress = ?;");
+            statement.setString(1, email);
             ResultSet result = statement.executeQuery();
-            DBTablePrinter.printResultSet(result);
+
+            while (result.next()) {
+                Participant participant = new Participant(
+                        result.getString("EmailAddress"),
+                        result.getString("Name"),
+                        result.getDate("BirthDate").toString(),
+                        result.getString("Gender"),
+                        result.getString("Address"),
+                        result.getString("PostalCode"),
+                        result.getString("City"),
+                        result.getString("Country"));
+
+                participants.add(participant);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("\n Participant name printed!");
         }
+        return participants;
     }
 }
