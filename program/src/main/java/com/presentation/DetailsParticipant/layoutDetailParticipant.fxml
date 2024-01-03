@@ -15,7 +15,7 @@
    <children>
       <TabPane layoutX="14.0" layoutY="24.0" prefHeight="581.0" prefWidth="785.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Gegevens">
+          <Tab text="Information">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -137,13 +137,13 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Courses">
+          <Tab text="Certificates">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView layoutX="14.0" layoutY="14.0" prefHeight="504.0" prefWidth="685.0">
+                        <TableView fx:id="tvCertificates" layoutX="14.0" layoutY="14.0" prefHeight="504.0" prefWidth="295.0">
                           <columns>
-                            <TableColumn fx:id="colCourses" prefWidth="684.0" text="Courses" />
+                            <TableColumn fx:id="colCourses" prefWidth="293.0" text="Coursenames of certificates succesfully obtained" />
                           </columns>
                         </TableView>
                      </children>

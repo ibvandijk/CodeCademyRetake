@@ -14,6 +14,10 @@ public class Certificate {
         this.courseName = courseName;
     }
 
+    public Certificate(String courseName) {
+        this.courseName = courseName;
+    }
+
     public String getEmailAddress() {
         return this.emailAddress;
     }
