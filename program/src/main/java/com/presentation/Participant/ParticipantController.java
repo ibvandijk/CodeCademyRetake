@@ -5,12 +5,13 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
+import com.datastorage.ParticipantDAO;
 import com.datastorage.SQLServerDatabase;
 import com.domain.Participant;
-import javafx.collections.FXCollections;
+import com.presentation.DetailsParticipant.DetailParticipantController;
+import com.presentation.Validation.InputValidation;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,6 +42,9 @@ public class ParticipantController implements Initializable {
 
     @FXML
     private Button btnClear;
+
+    @FXML
+    private Button btnDetails;
 
     @FXML
     private TableColumn<Participant, String> colDate;
@@ -109,141 +113,157 @@ public class ParticipantController implements Initializable {
     @FXML
     void handleButtonAction(ActionEvent event) throws IOException {
         if (event.getSource() == btnInsert) {
-            insertButton();
-        } 
-        if (event.getSource() == btnDelete) {
+            if (validateInput()) {
+                    insertButton();
+            }
+        }
+        else if (event.getSource() == btnDelete) {
             deleteButton();
         } 
-        if (event.getSource() == btnClear) {
+        else if (event.getSource() == btnClear) {
             isClicked = true;
             clear();    
         } 
-        if(event.getSource() == btnBack) {
-            backToHome();
+        else if (event.getSource() == btnUpdate && isClicked) {
+            if (validateInput()) {
+                updateButton();
+                isClicked = false;
+            }
         }
-        if (event.getSource() == btnUpdate && !isClicked) {
+        else if (event.getSource() == btnUpdate && !isClicked) {
             isClicked = true;
             setText();
-        } else if (event.getSource() == btnUpdate && isClicked) {
-            updateButton();
-            isClicked = false;
+        }
+        else if(event.getSource() == btnBack) {
+            backToHome();
+        }
+        else if (event.getSource() == btnDetails) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../DetailsParticipant/layoutDetailParticipant.fxml"));
+            Parent root = loader.load();
+            DetailParticipantController detailController = loader.getController();
+    
+            String selectedEmail = tvParticipants.getSelectionModel().getSelectedItem().getEmail();
+            System.out.println(selectedEmail);
+    
+            detailController.setParticipantEmail(selectedEmail);
+
+            detailController.loadParticipantDetails();
+    
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
         }
     }
 
-    public void initialize(URL url, ResourceBundle rb) {
-        showParticipant();
-    }
-
-    public void backToHome() throws IOException{
-        Stage stage = null;
-        Parent root = null;
-
-        stage = (Stage) btnBack.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public ObservableList<Participant> getParticpants() {
-        participants = FXCollections.observableArrayList();
-        Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "SELECT * FROM Participant;";
-        try {
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(query);
-
-            while (rs.next()) {
-
-                Participant participant = new Participant(
-                        rs.getString("EmailAddress"),
-                        rs.getString("Name"),
-                        rs.getDate("BirthDate").toString(),
-                        rs.getString("Gender"),
-                        rs.getString("Address"),
-                        rs.getString("PostalCode"),
-                        rs.getString("City"),
-                        rs.getString("Country"));
-
-                participants.add(participant);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        public void initialize(URL url, ResourceBundle rb) {
+            showParticipant();
         }
-        System.out.println("return");
-        System.out.println(participants.size());
 
-        return participants;
-    }
+        public void backToHome() throws IOException{
+            Stage stage = null;
+            Parent root = null;
 
-    public void showParticipant() {
-        ObservableList<Participant> participantList = getParticpants();
+            stage = (Stage) btnBack.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
+            
 
-        colEmail.setCellValueFactory(new PropertyValueFactory<Participant, String>("Email"));
-        colName.setCellValueFactory(new PropertyValueFactory<Participant, String>("Name"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
 
-        colDate.setCellValueFactory(new PropertyValueFactory<Participant, String>("Birthdate"));
+        public void showParticipant() {
+            System.out.println("Show Participants Method Called");
+            ObservableList<Participant> participantList = ParticipantDAO.getParticipants();
+        
+            colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+            colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        
+            tvParticipants.setItems(participantList);
+        }
 
-        colGender.setCellValueFactory(new PropertyValueFactory<Participant, String>("Gender"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<Participant, String>("Address"));
-        colPostalCode.setCellValueFactory(new PropertyValueFactory<Participant, String>("PostalCode"));
-        colCity.setCellValueFactory(new PropertyValueFactory<Participant, String>("City"));
-        colCountry.setCellValueFactory(new PropertyValueFactory<Participant, String>("Country"));
 
-        tvParticipants.setItems(participantList);
+        private void insertButton() {
+            System.out.println("Insert Participant Method Called");
 
-    }
+            LocalDate birthdate = LocalDate.of(
+                    Integer.parseInt(tfDateYear.getText()),
+                    Integer.parseInt(tfDateMonth.getText()),
+                    Integer.parseInt(tfDateDay.getText())
+            );
 
-    private void insertButton() {
-        System.out.println("Insert Button Clicked");
+            ParticipantDAO.insertParticipant(
+                    tfEmail.getText(),
+                    tfName.getText(),
+                    birthdate,
+                    tfGender.getText(),
+                    tfAddress.getText(),
+                    tfPostalCode.getText(),
+                    tfCity.getText(),
+                    tfCountry.getText()
+            );
 
-        Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "INSERT INTO PARTICIPANT VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    
-        try {
-            String Birthdate = String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText());
-   
-            PreparedStatement stm = conn.prepareStatement(query);
-    
-            stm.setString(1, tfEmail.getText());
-            stm.setString(2, tfName.getText());
-            stm.setDate(3, Date.valueOf(Birthdate));
-            stm.setString(4, tfGender.getText());
-            stm.setString(5, tfAddress.getText());
-            stm.setString(6, tfPostalCode.getText());
-            stm.setString(7, tfCity.getText());
-            stm.setString(8, tfCountry.getText());
-    
-            stm.execute();
-    
             clear();
-    
             showParticipant();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
     
 
-    public void deleteButton() {
-        Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "DELETE FROM Participant where EmailAddress = ?";
+        public void deleteButton() {
+            System.out.println("Delete Participant Method Called");
 
-        try {
-            PreparedStatement stm = conn.prepareStatement(query);
-            stm.setString(1, tvParticipants.getSelectionModel().getSelectedItem().getEmail());
+            String selectedEmail = tvParticipants.getSelectionModel().getSelectedItem().getEmail();
 
-            stm.execute();
+            ParticipantDAO.deleteParticipantByEmail(selectedEmail);
+
             showParticipant();
+        }
+
+    public void updateButton() {
+        System.out.println("Update Participant Method Called");
+
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        try {
+            String value1 = tfEmail.getText();
+            String value2 = tfName.getText();
+            Date value3 = Date.valueOf(String.valueOf(tfDateYear.getText())  + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText()));
+            String value4 = tfGender.getText();
+            String value5 = tfAddress.getText();
+            String value6 = tfPostalCode.getText();
+            String value7 = tfCity.getText();
+            String value8 = tfCountry.getText();
+            System.out.println("Put Text in");
+
+            String query = "UPDATE Participant SET EmailAddress= '" + value1 +
+            "',Name= '" + value2 + 
+            "',Birthdate= '" + value3 + 
+            "',Gender= '" + value4 + 
+            "',Address= '" + value5 + 
+            "',PostalCode= '" + value6 + 
+            "',City= '" + value7 + 
+            "',Country= '" + value8 + 
+
+            "' where EmailAddress='" + value1 + "' ";
+            System.out.println("query");
+
+            PreparedStatement stm = conn.prepareStatement(query);
+
+            System.out.println("execute");
+            stm.execute();
+            clear();
+            showParticipant();
+
         } catch (Exception e) {
+
             System.out.println(e);
         }
     }
 
     public void setText() {
+        System.out.println("Set Text Method Called");
+
         Participant selectedParticipant = tvParticipants.getSelectionModel().getSelectedItem();
+
+        System.out.println("Selected Participant: " + selectedParticipant);
 
         tfEmail.setText(tvParticipants.getSelectionModel().getSelectedItem().getEmail());
         tfName.setText(tvParticipants.getSelectionModel().getSelectedItem().getName());
@@ -252,7 +272,6 @@ public class ParticipantController implements Initializable {
         tfDateMonth.setText(tvParticipants.getSelectionModel().getSelectedItem().getBirthdate());
         tfDateDay.setText(tvParticipants.getSelectionModel().getSelectedItem().getBirthdate());
 
-        // Parse the date string and set each part separately
         String[] dateParts = selectedParticipant.getBirthdate().split("-");
             if (dateParts.length == 3) {
                 tfDateYear.setText(dateParts[0]);
@@ -270,45 +289,9 @@ public class ParticipantController implements Initializable {
     }
 
 
-    
-
-
-    public void updateButton() {
-
-        Connection conn = SQLServerDatabase.getDatabase().getConnection();
-
-        try {
-
-            String value1 = tfEmail.getText();
-            String value2 = tfName.getText();
-            Date value3 = Date.valueOf(String.valueOf(tfDateYear.getText())  + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText()));
-            String value4 = tfGender.getText();
-            String value5 = tfAddress.getText();
-            String value6 = tfPostalCode.getText();
-            String value7 = tfCity.getText();
-            String value8 = tfCountry.getText();
-            System.out.println("Put Text in");
-
-            String query = "UPDATE Participant SET EmailAddress= '" + value1 + "',Name= '" + value2 + "',Birthdate= '" +
-                    value3 + "',Gender= '" + value4 + "',Address= '" + value5 + "',PostalCode= '" + value6 + "',City= '"
-                    + value7 + "',Country= '" + value8 + "' where EmailAddress='" + value1 + "' ";
-            System.out.println("query");
-
-            PreparedStatement stm = conn.prepareStatement(query);
-
-            System.out.println("execute");
-            stm.execute();
-            clear();
-            showParticipant();
-
-        } catch (Exception e) {
-
-            System.out.println(e);
-
-        }
-    }
-
     public void clear() {
+        System.out.println("Clear");
+        
         tfEmail.clear();
         tfName.clear();
         tfDateYear.clear();
@@ -321,4 +304,30 @@ public class ParticipantController implements Initializable {
         tfCountry.clear();
     }
 
+    private boolean validateInput() {
+        // Check if email is right
+        if (!InputValidation.isValidEmail(tfEmail.getText())) {
+            InputValidation.showError("Invalid email format. \nPlease enter a valid email address.");
+                return false;
+        }
+
+        // Checking if postalcode is right NNNN<space>MM
+        if (!InputValidation.isValidDutchPostalCode(tfPostalCode.getText())) {
+            InputValidation.showError("Invalid Dutch postal code. Please enter a valid postal code. \nIt needs to have 4 numbers, a space and two uppercase letters.");
+                return false;
+        }
+
+        // Check if the date is correct
+        int day = Integer.parseInt(tfDateDay.getText());
+        int month = Integer.parseInt(tfDateMonth.getText());
+        int year = Integer.parseInt(tfDateYear.getText());
+        
+        if (!InputValidation.isValidDate(day, month, year)) {
+            InputValidation.showError("Invalid date. \nPlease enter a valid date.");
+                return false;
+        }
+
+        return true;
+    }
+   
 }

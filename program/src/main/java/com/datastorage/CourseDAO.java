@@ -3,6 +3,9 @@ package com.datastorage;
 import java.sql.*;
 import org.verdictdb.commons.DBTablePrinter;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class CourseDAO {
 
     String empNo;
@@ -73,28 +76,48 @@ public class CourseDAO {
     }
 
     public static void updateCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty) {
-    try {
-        Connection db = SQLServerDatabase.getDatabase().getConnection();
+        try {
+            Connection db = SQLServerDatabase.getDatabase().getConnection();
 
-       
-        String sql = "UPDATE COURSE SET CourseName= ?, CourseNumber= ?, Subject= ?, IntroductionText= ?, Difficulty= ? WHERE CourseName= ?";
-        PreparedStatement statement = db.prepareStatement(sql);
+        
+            String sql = "UPDATE COURSE SET CourseName= ?, CourseNumber= ?, Subject= ?, IntroductionText= ?, Difficulty= ? WHERE CourseName= ?";
+            PreparedStatement statement = db.prepareStatement(sql);
 
-        statement.setString(1, courseName);
-        statement.setInt(2, courseNumber);
-        statement.setString(3, subject);
-        statement.setString(4, introductionText);
-        statement.setString(5, difficulty);
+            statement.setString(1, courseName);
+            statement.setInt(2, courseNumber);
+            statement.setString(3, subject);
+            statement.setString(4, introductionText);
+            statement.setString(5, difficulty);
 
 
-        statement.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        System.out.println("\n Course Updated!");
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println("\n Course Updated!");
+        }
     }
-}
+
+    public static ObservableList<String> getCourseNames() {
+        ObservableList<String> courseNamesList = FXCollections.observableArrayList();
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "SELECT CourseName FROM Course;";
+        
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+    
+            while (rs.next()) {
+                courseNamesList.add(rs.getString("CourseName"));
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    
+        return courseNamesList;
+    }
 
 }

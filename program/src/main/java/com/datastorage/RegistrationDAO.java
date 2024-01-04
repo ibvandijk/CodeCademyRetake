@@ -1,12 +1,15 @@
 package com.datastorage;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
-
+import java.sql.Statement;
 import org.verdictdb.commons.DBTablePrinter;
+import com.domain.Registration;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class RegistrationDAO {
     
@@ -36,53 +39,66 @@ public class RegistrationDAO {
         }
     }
 
-    public static void addRegistration(String email, String courseName, LocalDate registrationDate) {
-        try {Connection db = SQLServerDatabase.getDatabase().getConnection();
-            // Prints full table of Participant
-            PreparedStatement statement = db.prepareStatement(
-                    "INSERT INTO Registration VALUES (?, ?, ?);");
-            statement.setString(1, email);
-            statement.setString(2, courseName);
-            statement.setString(3, String.valueOf(registrationDate));
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public static ObservableList<Registration> getRegistrations() {
+        ObservableList<Registration> registrations = FXCollections.observableArrayList();
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "SELECT * FROM Registration;";
+        try {
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+
+            while (rs.next()) {
+                Registration registration = new Registration(
+                    rs.getString("EmailAddress"),
+                    rs.getString("CourseName"),
+                    rs.getDate("Date").toString());
+                registrations.add(registration);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("\n Registration Added!");
+        }
+        return registrations;
+    }
+
+    public static void insertRegistration(String email, String courseName, String date) {
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "INSERT INTO Registration VALUES (?, ?, ?)";
+        try {
+            PreparedStatement stm = conn.prepareStatement(query);
+            stm.setString(1, email);
+            stm.setString(2, courseName);
+            stm.setDate(3, Date.valueOf(date));
+            stm.execute();
+        } catch (Exception e) {
+            System.out.println(e);
         }
     }
 
-    public static void removeRegistration(String email) {
-        try {Connection db = SQLServerDatabase.getDatabase().getConnection();
-            // Removes a record by the name parameter
-            PreparedStatement statement = db.prepareStatement("DELETE FROM Registration where EmailAddress = ?");
-            statement.setString(1, email);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public static void deleteRegistration(Registration registration) {
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ?";
+        try {
+            PreparedStatement stm = conn.prepareStatement(query);
+            stm.setString(1, registration.getEmail());
+            stm.setString(2, registration.getCourseName());
+            stm.execute();
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("\n Registration Removed!");
+            System.out.println(e);
         }
     }
 
-    public static void updateRegistration(String EmailAddress, String CourseName, LocalDate registrationDate) {
-        try { Connection db = SQLServerDatabase.getDatabase().getConnection();
-            //Updates records
-            PreparedStatement statement = db.prepareStatement("UPDATE Registration SET CourseName = ?, RegistrationDate = ? WHERE EmailAddress = ?");
-            statement.setString(1, CourseName);
-            statement.setString(2, EmailAddress);
-            statement.setString(3, String.valueOf(registrationDate));
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public static void updateRegistration(String email, String courseName, String date) {
+        Connection conn = SQLServerDatabase.getDatabase().getConnection();
+        String query = "UPDATE Registration SET CourseName = ?, Date = ? WHERE EmailAddress = ?";
+        try {
+            PreparedStatement stm = conn.prepareStatement(query);
+            stm.setString(1, courseName);
+            stm.setDate(2, Date.valueOf(date));
+            stm.setString(3, email);
+            stm.execute();
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println(" \n Registration updated!");
+            System.out.println(e);
         }
     }
 }
