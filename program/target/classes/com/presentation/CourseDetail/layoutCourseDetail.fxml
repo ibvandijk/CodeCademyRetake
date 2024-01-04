@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.presentation.CourseDetail.CourseDetailController">
+    <!-- Course Details -->
+    <VBox layoutX="8.0" layoutY="20.0" prefHeight="158.0" prefWidth="200.0" spacing="10.0">
+        <children>
+            <Label text="Course Details" style="-fx-font-size: 20px;" />
+            <Label fx:id="lblCourseName" text="Course Name" />
+            <Label fx:id="lblCourseNumber" text="Course Number" />
+            <Label fx:id="lblSubject" text="Subject" />
+            <Label fx:id="lblIntroductionText" text="Introduction Text" />
+            <Label fx:id="lblDifficulty" text="Difficulty" />
+        </children>
+    </VBox>
+
+    <!-- Modules Table -->
+    <TableView fx:id="tvModules" layoutX="220.0" layoutY="20.0" prefHeight="700.0" prefWidth="500.0">
+        <columns>
+            <TableColumn fx:id="colModuleName" prefWidth="200.0" text="Module Name" />
+            <TableColumn fx:id="colModuleDescription" prefWidth="300.0" text="Description" />
+        </columns>
+    </TableView>
+
+    <!-- Back Button -->
+    <Button text="Back" layoutX="20.0" layoutY="720.0" onAction="#handleBackAction"/>
+</AnchorPane>

@@ -7,16 +7,16 @@ public class Module {
     private String moduleDescription;
     private String contactPersonName;
     private String contactPersonEmail;
-    private int courseNumber;
+    private String courseName;
 
     public Module(String moduleTitle, String version, String moduleDescription, String contactPersonName,
-            String contactPersonEmail, int courseNumber) {
+            String contactPersonEmail, String courseName) {
         this.moduleTitle = moduleTitle;
         this.version = version;
         this.moduleDescription = moduleDescription;
         this.contactPersonName = contactPersonName;
         this.contactPersonEmail = contactPersonEmail;
-        this.courseNumber = courseNumber;
+        this.courseName = courseName;
     }
 
     //Logica
@@ -61,13 +61,13 @@ public class Module {
     public void setContactPersonEmail(String contactPersonEmail) {
         this.contactPersonEmail = contactPersonEmail;
     }
-
-    public int getCourseNumber() {
-        return this.courseNumber;
+    
+    public String getCourseName() {
+        return this.courseName;
     }
 
-    public void setCourseNumber(int courseNumber) {
-        this.courseNumber = courseNumber;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
 

@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import com.datastorage.SQLServerDatabase;
 import com.domain.Course;
+import com.presentation.CourseDetail.CourseDetailController;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -41,6 +43,9 @@ public class CourseController implements Initializable {
 
     @FXML
     private Button btnClear;
+
+    @FXML
+    private Button btnViewCourse;
 
     @FXML
     private TableColumn<Course, String> colCourseName;
@@ -102,6 +107,9 @@ public class CourseController implements Initializable {
         } else if (event.getSource() == btnUpdate && isClicked) {
             updateButton();
             isClicked = false;
+        }
+        if (event.getSource() == btnViewCourse) {
+            viewCourseDetails();
         }
     }
 
@@ -265,5 +273,25 @@ public class CourseController implements Initializable {
         tfDifficulty.clear();
 
     }
-    
+
+    private void viewCourseDetails() throws IOException {
+    Course selectedCourse = tvCourses.getSelectionModel().getSelectedItem();
+    if (selectedCourse == null) {
+        // Handle case where no course is selected
+        return;
+    }
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("../CourseDetail/layoutCourseDetail.fxml"));
+    Parent courseDetailsRoot = loader.load();
+
+    CourseDetailController courseDetailController = loader.getController();
+    courseDetailController.setSelectedCourse(selectedCourse);
+
+    Stage stage = new Stage();
+    stage.setTitle("Course Details");
+    stage.setScene(new Scene(courseDetailsRoot));
+    stage.show();
+    }
+
 }
+
