@@ -81,6 +81,7 @@ public class StatisticsController implements Initializable {
 
             PreparedStatement stm = conn.prepareStatement(query);
 
+            
             ResultSet rs = stm.executeQuery();
 
             StringBuilder statisticsText = new StringBuilder();

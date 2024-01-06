@@ -15,15 +15,16 @@
         <VBox layoutX="50.0" layoutY="50.0" prefHeight="800.0" prefWidth="1000.0" spacing="10.0">
             <children>
                 <Label text="Statistics 1:" />
-                <Label text="Voor een geselecteerd geslacht, geef aan voor hoeveel procent van de cursussen waarvoor ingeschreven is, het certificaat behaald is." />
-                <Label  fx:id="lblStatistics" text=""/>
+                <Label
+                    text="Voor een geselecteerd geslacht, geef aan voor hoeveel procent van de cursussen waarvoor ingeschreven is, het certificaat behaald is. " />
+                <Label fx:id="lblStatistics" text="" />
             </children>
         </VBox>
         <VBox layoutX="50.0" layoutY="200.0" prefHeight="1000.0" prefWidth="750.0" spacing="10.0">
             <children>
                 <Label text="Statistics 5:" />
                 <Label text="Geef een top 3 van meest bekeken webcasts." />
-                <Label  fx:id="lblTopWebcasts" text=""/>
+                <Label fx:id="lblTopWebcasts" text="" />
 
             </children>
         </VBox>
