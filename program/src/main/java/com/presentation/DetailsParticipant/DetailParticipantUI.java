@@ -17,7 +17,8 @@ public class DetailParticipantUI extends Application {
 
         stage.setScene(scene);
 
-        stage.show();
+        stage.setTitle("Emma van den Broek (2200567), Ivan van Dijk (0000000), Davit Dashyan (0000000)");
 
+        stage.show();
     }
 }
