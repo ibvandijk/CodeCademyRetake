@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ResourceBundle;
+import com.datastorage.CourseDAO;
+import com.datastorage.ParticipantDAO;
 import com.datastorage.SQLServerDatabase;
 import com.domain.Certificate;
 import javafx.collections.FXCollections;
@@ -18,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -54,7 +57,7 @@ public class CertificateController implements Initializable {
     private TableColumn<Certificate, String> colCourseName;
 
     @FXML
-    private TextField tfEmailAddress;
+    private ComboBox<String> tfEmailAddress;
 
     @FXML
     private TextField tfGrade;
@@ -63,7 +66,7 @@ public class CertificateController implements Initializable {
     private TextField tfEmployeeName;
 
     @FXML
-    private TextField tfCourseName;
+    private ComboBox<String> tfCourseName;
 
     @FXML
     private TableView<Certificate> tvCertificates;
@@ -98,6 +101,7 @@ public class CertificateController implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
         showCertificate();
+        initializeComboBox();
     }
 
     public void backToHome() throws IOException{
@@ -156,10 +160,10 @@ public class CertificateController implements Initializable {
         try {
             PreparedStatement stm = conn.prepareStatement(query);
 
-            stm.setString(1, tfEmailAddress.getText());
+            stm.setString(1, tfEmailAddress.getValue());
             stm.setString(2, tfGrade.getText());
             stm.setString(3, tfEmployeeName.getText());
-            stm.setString(4, tfCourseName.getText());
+            stm.setString(4, tfCourseName.getValue());
 
             stm.execute();
 
@@ -191,10 +195,10 @@ public class CertificateController implements Initializable {
         Certificate selectedCertificates = tvCertificates.getSelectionModel().getSelectedItem();
         
         if (selectedCertificates != null) {
-        tfEmailAddress.setText(selectedCertificates.getEmailAddress());
+        tfEmailAddress.setValue(selectedCertificates.getEmailAddress());
         tfGrade.setText(selectedCertificates.getGrade());
         tfEmployeeName.setText(selectedCertificates.getEmployeeName());
-        tfCourseName.setText(selectedCertificates.getCourseName());
+        tfCourseName.setValue(selectedCertificates.getCourseName());
         }
 
         System.out.println("Set Text in");
@@ -203,10 +207,10 @@ public class CertificateController implements Initializable {
     public void updateButton() {
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         try {
-            String value1 = tfEmailAddress.getText();
+            String value1 = tfEmailAddress.getValue();
             String value2 = tfGrade.getText();
             String value3 = tfEmployeeName.getText();
-            String value4 = tfCourseName.getText();
+            String value4 = tfCourseName.getValue();
             System.out.println("Put Text in");
 
             String query = "UPDATE Certificate SET EmailAddress= '" + value1 
@@ -228,10 +232,18 @@ public class CertificateController implements Initializable {
         }
     }
 
+    private void initializeComboBox() {
+        ObservableList<String> emailsList = ParticipantDAO.getEmails();
+        tfEmailAddress.setItems(emailsList);
+
+        ObservableList<String> coursesList = CourseDAO.getCourseNames();
+        tfCourseName.setItems(coursesList);
+    }
+
     public void clear() {
-        tfEmailAddress.clear();
+        tfEmailAddress.setValue(null);
         tfGrade.clear();
         tfEmployeeName.clear();
-        tfCourseName.clear();
+        tfCourseName.setValue(null);
     }
 }

@@ -12,12 +12,11 @@ public class Registration {
         this.date = date;
     }
 
-    // Logica
-    public static void main(String[] Args) {
-        
+    public Registration(String emailAddress, String courseName) {
+        this.email = emailAddress;
+        this.courseName = courseName;
     }
 
-    // Getters en Setters
     public String getEmail() {
         return this.email;
     }

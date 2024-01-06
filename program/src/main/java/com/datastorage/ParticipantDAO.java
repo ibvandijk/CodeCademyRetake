@@ -2,7 +2,6 @@ package com.datastorage;
 
 import java.sql.*;
 import java.time.LocalDate;
-
 import org.verdictdb.commons.DBTablePrinter;
 import com.domain.Participant;
 import javafx.collections.FXCollections;
@@ -15,7 +14,6 @@ public class ParticipantDAO {
     Statement stmt;
     ResultSet rs;
 
-    
     public static void main(String[] args) {
         try{
             SQLServerDatabase.getDatabase().connect();
@@ -24,7 +22,7 @@ public class ParticipantDAO {
              e.printStackTrace();
          }
 
-         printParticipant();
+        printParticipant();
     }
 
     public static void printParticipant() {
@@ -37,8 +35,6 @@ public class ParticipantDAO {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("\n Participant table printed!");
         }
     }
 
@@ -157,5 +153,5 @@ public class ParticipantDAO {
         }
 
         return emailsList;
-    }
+    }   
 }

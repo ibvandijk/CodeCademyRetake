@@ -138,12 +138,15 @@ public class RegistrationController implements Initializable{
     
     public void deleteButton() {
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
-        if (selectedRegistration != null) {
-            RegistrationDAO.deleteRegistration(selectedRegistration);
-            showRegistration();
-        } else {
-            System.out.println("No registration selected for deletion.");
-        }
+        System.out.println("Delete Participant Method Called");
+
+        String selectedEmail = selectedRegistration.getEmail();
+        String selectedCourse = selectedRegistration.getCourseName();
+        String selectedDate = selectedRegistration.getDate();
+
+        RegistrationDAO.deleteRegistration(selectedEmail, selectedCourse, selectedDate);
+
+        showRegistration();
     }
     
     public void updateButton() {
@@ -159,7 +162,7 @@ public class RegistrationController implements Initializable{
         ObservableList<String> emailsList = ParticipantDAO.getEmails();
         tfEmails.setItems(emailsList);
 
-        ObservableList<String> coursesList = CourseDAO.getCourseNames();  // Assuming you have a CourseDAO
+        ObservableList<String> coursesList = CourseDAO.getCourseNames();
         tfCourses.setItems(coursesList);
     }
 

@@ -27,7 +27,7 @@ public class SQLServerDatabase {
 
         public void connect() throws SQLException {
             String connectionUrl = url + ";user=" + this.user + ";password=" + this.password;
-        DriverManager.setLoginTimeout(1);
+        DriverManager.setLoginTimeout(500);
         try {
             this.connection = DriverManager.getConnection(connectionUrl);
         } catch (SQLException e) {

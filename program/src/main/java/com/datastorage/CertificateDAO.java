@@ -5,13 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 import org.verdictdb.commons.DBTablePrinter;
-
 import com.domain.Certificate;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class CertificateDAO {
 
@@ -118,38 +113,5 @@ public class CertificateDAO {
             System.out.println("\n Certificate table printed!");
         }
         return certificates;
-    }
-
-
-    // Om de certificaten bij een specifieke participant op te halen
-    public static ObservableList<Certificate> getCertificatesForEmail(String emailAddress) {
-        ObservableList<Certificate> certificatesList = FXCollections.observableArrayList();
-    
-        try {
-            Connection db = SQLServerDatabase.getDatabase().getConnection();
-    
-            String query = "SELECT CourseName FROM Certificate WHERE EmailAddress = ?";
-            PreparedStatement statement = db.prepareStatement(query);
-            statement.setString(1, emailAddress);
-    
-            ResultSet result = statement.executeQuery();
-            while (result.next()) {
-                // Retrieve and add the CertificaatNaam (course name)
-                String courseName = result.getString("CourseName");
-                certificatesList.add(new Certificate(courseName));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("\n Certificates for email address " + emailAddress + " retrieved!");
-        }
-    
-        return certificatesList;
-    }
-    
-
-    
-    
+    }   
 }

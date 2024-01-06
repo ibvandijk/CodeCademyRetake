@@ -42,12 +42,11 @@ public class GUIController implements Initializable {
         if (event.getSource() == btnRegistrations) {
             stage = (Stage) btnRegistrations.getScene().getWindow();
             root = FXMLLoader.load(getClass().getResource("../Registration/layoutRegistration.fxml"));
-
         }       
-        if (event.getSource() == btnCertificate) {
-            stage = (Stage) btnCertificate.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../Certificate/layoutCertificate.fxml"));
-        } 
+        // if (event.getSource() == btnCertificate) {
+        //     stage = (Stage) btnCertificate.getScene().getWindow();
+        //     root = FXMLLoader.load(getClass().getResource("../Certificate/layoutCertificate.fxml"));
+        // } 
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

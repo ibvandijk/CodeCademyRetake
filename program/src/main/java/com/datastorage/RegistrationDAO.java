@@ -34,8 +34,6 @@ public class RegistrationDAO {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("\n Registration table printed!");
         }
     }
 
@@ -75,13 +73,14 @@ public class RegistrationDAO {
         }
     }
 
-    public static void deleteRegistration(Registration registration) {
+    public static void deleteRegistration(String email, String courseName, String date) {
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ?";
+        String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ? And Date = ?";
         try {
             PreparedStatement stm = conn.prepareStatement(query);
-            stm.setString(1, registration.getEmail());
-            stm.setString(2, registration.getCourseName());
+            stm.setString(1, email);
+            stm.setString(2, courseName);
+            stm.setDate(3, Date.valueOf(date));
             stm.execute();
         } catch (Exception e) {
             System.out.println(e);
@@ -90,15 +89,20 @@ public class RegistrationDAO {
 
     public static void updateRegistration(String email, String courseName, String date) {
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "UPDATE Registration SET CourseName = ?, Date = ? WHERE EmailAddress = ?";
+        String query = "UPDATE Registration SET Date = ? WHERE EmailAddress = ? AND CourseName = ? AND Date = ?";
         try {
             PreparedStatement stm = conn.prepareStatement(query);
-            stm.setString(1, courseName);
-            stm.setDate(2, Date.valueOf(date));
-            stm.setString(3, email);
+            stm.setDate(1, Date.valueOf(date));
+            stm.setString(2, email);
+            stm.setString(3, courseName);
+            stm.setDate(4, Date.valueOf(date));
             stm.execute();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
+    
+    
+   
+    
 }
