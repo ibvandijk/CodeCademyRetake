@@ -4,14 +4,57 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.presentation.CourseDetail.CourseDetailController">
     <!-- Course Details -->
-    <VBox layoutX="8.0" layoutY="20.0" prefHeight="158.0" prefWidth="200.0" spacing="10.0">
+    <VBox layoutX="8.0" layoutY="20.0" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
         <children>
             <Label text="Course Details" style="-fx-font-size: 20px;" />
-            <Label fx:id="lblCourseName" text="Course Name" />
-            <Label fx:id="lblCourseNumber" text="Course Number" />
-            <Label fx:id="lblSubject" text="Subject" />
-            <Label fx:id="lblIntroductionText" text="Introduction Text" />
-            <Label fx:id="lblDifficulty" text="Difficulty" />
+            <HBox spacing="5">
+                <Label text="Name:" />
+                <Label fx:id="lblCourseName" text="Course Name" />
+            </HBox>
+            <HBox spacing="5">
+                <Label text="Number:" />
+                <Label fx:id="lblCourseNumber" text="Course Number" />
+            </HBox>
+            <HBox spacing="5">
+                <Label text="Subject:" />
+                <Label fx:id="lblSubject" text="Subject" />
+            </HBox>
+            <HBox spacing="5">
+                <Label text="Intro Text:" />
+                <Label fx:id="lblIntroductionText" text="Introduction Text" />
+            </HBox>
+            <HBox spacing="5">
+                <Label text="Difficulty:" />
+                <Label fx:id="lblDifficulty" text="Difficulty" />
+            </HBox>
+        </children>
+        <children>
+                <!-- Module Details -->
+                <Label text="Module Details" style="-fx-font-size: 18px;" />
+                <HBox spacing="5">
+                    <Label text="Title:" />
+                    <Label fx:id="lblModuleTitle" />
+                </HBox>
+                <HBox spacing="5">
+                    <Label text="Version:" />
+                    <Label fx:id="lblModuleVersion" />
+                </HBox>
+                <HBox spacing="5">
+                    <Label text="Description:" />
+                    <Label fx:id="lblModuleDescription" />
+                </HBox>
+                <HBox spacing="5">
+                    <Label text="Contact Person:" />
+                    <Label fx:id="lblContactPersonName" />
+                </HBox>
+                <HBox spacing="5">
+                    <Label text="Contact Email:" />
+                    <Label fx:id="lblContactPersonEmail" />
+                </HBox>
+                <HBox spacing="5">
+                    <Label text="Average Progress:" />
+                    <Label fx:id="lblAverageProgress" />
+                </HBox>
         </children>
     </VBox>
 

@@ -9,8 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 
 import com.datastorage.SQLServerDatabase;
-import com.domain.Course; // Your Course class
-import com.domain.Module; // Your Module class
+import com.domain.Course;
+import com.domain.Module; 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,11 +23,32 @@ public class CourseDetailController {
     private TableView<Module> tvModules;
     @FXML
     private TableColumn<Module, String> colModuleName, colModuleDescription;
+    @FXML
+    private Label lblModuleTitle, lblModuleVersion, lblModuleDescription, lblContactPersonName, lblContactPersonEmail, lblAverageProgress;
 
-    private Course selectedCourse; // Set this from CourseController
+
+    private Course selectedCourse;
 
     public void initialize() {
         configureTableView();
+        setupModuleSelection();
+    }
+
+    private void setupModuleSelection() {
+        tvModules.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                updateModuleDetails(newSelection);
+            }
+        });
+    }
+
+    private void updateModuleDetails(Module module) {
+        lblModuleTitle.setText(module.getModuleTitle());
+        lblModuleVersion.setText(module.getVersion());
+        lblModuleDescription.setText(module.getModuleDescription());
+        lblContactPersonName.setText(module.getContactPersonName());
+        lblContactPersonEmail.setText(module.getContactPersonEmail());
+        lblAverageProgress.setText(String.format("%.2f%%", module.getAverageProgress()));
     }
 
     public void setSelectedCourse(Course course) {
@@ -52,7 +73,6 @@ public class CourseDetailController {
     private void loadModulesForCourse() {
     ObservableList<Module> modules = FXCollections.observableArrayList();
     
-    // Replace with your method to establish a database connection
     Connection conn = SQLServerDatabase.getDatabase().getConnection();
     
     String query = "SELECT * FROM Module WHERE courseName = ?";

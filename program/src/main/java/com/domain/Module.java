@@ -8,9 +8,12 @@ public class Module {
     private String contactPersonName;
     private String contactPersonEmail;
     private String courseName;
+    private double averageProgress; // New field for average progress
 
-    public Module(String moduleTitle, String version, String moduleDescription, String contactPersonName,
-            String contactPersonEmail, String courseName) {
+    // Constructor including averageProgress
+    public Module(String moduleTitle, String version, String moduleDescription, 
+                  String contactPersonName, String contactPersonEmail, 
+                  String courseName) {
         this.moduleTitle = moduleTitle;
         this.version = version;
         this.moduleDescription = moduleDescription;
@@ -18,12 +21,22 @@ public class Module {
         this.contactPersonEmail = contactPersonEmail;
         this.courseName = courseName;
     }
+    public Module(String moduleTitle, String version, String moduleDescription, 
+                  String contactPersonName, String contactPersonEmail, 
+                  String courseName, double averageProgress) {
+        this.moduleTitle = moduleTitle;
+        this.version = version;
+        this.moduleDescription = moduleDescription;
+        this.contactPersonName = contactPersonName;
+        this.contactPersonEmail = contactPersonEmail;
+        this.courseName = courseName;
+        this.averageProgress = averageProgress; // Set the average progress
+    }
 
-    //Logica
+    // Getters and Setters
 
-    //Getters en Setters
     public String getModuleTitle() {
-        return this.moduleTitle;
+        return moduleTitle;
     }
 
     public void setModuleTitle(String moduleTitle) {
@@ -31,7 +44,7 @@ public class Module {
     }
 
     public String getVersion() {
-        return this.version;
+        return version;
     }
 
     public void setVersion(String version) {
@@ -39,7 +52,7 @@ public class Module {
     }
 
     public String getModuleDescription() {
-        return this.moduleDescription;
+        return moduleDescription;
     }
 
     public void setModuleDescription(String moduleDescription) {
@@ -47,7 +60,7 @@ public class Module {
     }
 
     public String getContactPersonName() {
-        return this.contactPersonName;
+        return contactPersonName;
     }
 
     public void setContactPersonName(String contactPersonName) {
@@ -55,20 +68,26 @@ public class Module {
     }
 
     public String getContactPersonEmail() {
-        return this.contactPersonEmail;
+        return contactPersonEmail;
     }
 
     public void setContactPersonEmail(String contactPersonEmail) {
         this.contactPersonEmail = contactPersonEmail;
     }
-    
+
     public String getCourseName() {
-        return this.courseName;
+        return courseName;
     }
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
     }
 
+    public double getAverageProgress() {
+        return averageProgress;
+    }
 
+    public void setAverageProgress(double averageProgress) {
+        this.averageProgress = averageProgress;
+    }
 }
