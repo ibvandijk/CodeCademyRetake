@@ -144,7 +144,8 @@
                      <children>
                         <TableView fx:id="tvCertificates" layoutX="10.0" layoutY="14.0" prefHeight="538.0" prefWidth="760.0">
                           <columns>
-                            <TableColumn fx:id="colCourses" prefWidth="784.0" text="Coursenames of certificates succesfully obtained" />
+                            <TableColumn fx:id="colCourses" prefWidth="571.0" text="Coursenames of certificates succesfully obtained" />
+                              <TableColumn fx:id="colCerDate" prefWidth="187.0" text="CertificateDate" />
                           </columns>
                         </TableView>
                      </children>

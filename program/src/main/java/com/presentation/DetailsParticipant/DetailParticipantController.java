@@ -2,7 +2,6 @@ package com.presentation.DetailsParticipant;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.util.ResourceBundle;
 import com.datastorage.ParticipantDAO;
 import com.datastorage.ParticipantProgressDAO;
@@ -11,7 +10,6 @@ import com.domain.Participant;
 import com.domain.ParticipantProgress;
 import com.domain.Registration;
 import com.presentation.Validation.InputValidation;
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -59,6 +57,9 @@ public class DetailParticipantController implements Initializable {
     private TableColumn<Certificate, String> colCourses;
 
     @FXML
+    private TableColumn<Certificate, String> colCerDate;
+
+    @FXML
     private TableView<Registration> tvRegistrations;
 
     @FXML
@@ -87,7 +88,7 @@ public class DetailParticipantController implements Initializable {
 
     private String participantEmail;
 
-        @FXML
+    @FXML
     void handleButtonAction(ActionEvent event) throws IOException {
         if (event.getSource() == btnCompleteCourse) {
             CompleteCourse();   
@@ -105,7 +106,7 @@ public class DetailParticipantController implements Initializable {
     }
 
     public void loadParticipantDetails() {
-        System.out.println("Load participantDetails is called");
+        System.out.println("Load Participant Details is called");
 
         ObservableList<Participant> details = ParticipantDAO.getParticipantByEmail(participantEmail);
 
@@ -128,9 +129,10 @@ public class DetailParticipantController implements Initializable {
     }
 
     private void initializeCertificatesTable() {
-        System.out.println("Fill up certificates table");
+        System.out.println("Fill up Certificates table");
 
         colCourses.setCellValueFactory(new PropertyValueFactory<>("CourseName"));
+        colCerDate.setCellValueFactory(new PropertyValueFactory<>("CertificateDate"));
 
         ObservableList<Certificate> certificatesList = ParticipantProgressDAO.getCertificatesForEmail(participantEmail);
 
@@ -138,7 +140,7 @@ public class DetailParticipantController implements Initializable {
     }
 
     private void initializeRegistrationTable() {
-        System.out.println("Fill up registration table");
+        System.out.println("Fill up Registration table");
 
         colRegCourses.setCellValueFactory(new PropertyValueFactory<>("CourseName"));
         colRegDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
@@ -149,7 +151,7 @@ public class DetailParticipantController implements Initializable {
     }
 
     private void initializeProgressTable() {
-        System.out.println("Fill up progress table");
+        System.out.println("Fill up Progress table");
 
         colProCourses.setCellValueFactory(new PropertyValueFactory<>("CourseName"));
         colProMTitle.setCellValueFactory(new PropertyValueFactory<>("ModuleTitle"));
@@ -163,6 +165,8 @@ public class DetailParticipantController implements Initializable {
     }
     
     private void CompleteCourse() {
+        System.out.println("Complete Course method called");
+
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
 
         if (selectedRegistration != null) {
@@ -175,11 +179,9 @@ public class DetailParticipantController implements Initializable {
             initializeRegistrationTable();
             initializeProgressTable();
     
-            // Display a success message
             String successMessage = "Course completed! Certificate added for " + courseName;
             InputValidation.showInformation(successMessage);
         } else {
-            // Display a warning if no registration is selected
             String warningMessage = "Please select a registration to complete a course.";
             InputValidation.showError(warningMessage);
         }

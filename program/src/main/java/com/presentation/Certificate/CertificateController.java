@@ -129,7 +129,8 @@ public class CertificateController implements Initializable {
                     rs.getString("EmailAddress"), 
                     rs.getString("Grade"),
                     rs.getString("EmployeeName"), 
-                    rs.getString("CourseName"));
+                    rs.getString("CourseName"),
+                    rs.getString("CertificateDate"));
 
                 certificates.add(certificate);
             }

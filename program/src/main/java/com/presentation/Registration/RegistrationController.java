@@ -76,11 +76,11 @@ public class RegistrationController implements Initializable{
     void handleButtonAction(ActionEvent event) throws IOException {
         if (event.getSource() == btnInsert) {
             if (validateInput()) {
-                insertButton();
+                insertRegistration();
             }
         }   
         else if (event.getSource() == btnDelete) {
-            deleteButton();
+            deleteRegistration();
         } 
         if (event.getSource() == btnClear) {
             isClicked = true;
@@ -94,7 +94,7 @@ public class RegistrationController implements Initializable{
             setText();
         } else {
             if (validateInput()) {
-                updateButton();
+                updateRegistration();
                 isClicked = false;
             }
         }
@@ -106,6 +106,8 @@ public class RegistrationController implements Initializable{
     }
 
     public void backToHome() throws IOException{
+        System.out.println("Back To Home");
+
         Stage stage = null;
         Parent root = null;
 
@@ -118,6 +120,7 @@ public class RegistrationController implements Initializable{
     }
 
     public void showRegistration() {
+        System.out.println("Show Registrations called");
         ObservableList<Registration> registrationsList = RegistrationDAO.getRegistrations();
 
         colEmail.setCellValueFactory(new PropertyValueFactory<Registration, String>("Email"));
@@ -127,7 +130,9 @@ public class RegistrationController implements Initializable{
         tvRegistrations.setItems(registrationsList);
     }
 
-    private void insertButton() {
+    private void insertRegistration() {
+        System.out.println("Insert Registration called");
+
         String selectedEmail = tfEmails.getValue();
         String selectedCourse = tfCourses.getValue();
         String date = String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText());
@@ -136,9 +141,10 @@ public class RegistrationController implements Initializable{
         showRegistration();
     }
     
-    public void deleteButton() {
+    public void deleteRegistration() {
+        System.out.println("Delete Registration method called");
+
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
-        System.out.println("Delete Participant Method Called");
 
         String selectedEmail = selectedRegistration.getEmail();
         String selectedCourse = selectedRegistration.getCourseName();
@@ -149,7 +155,9 @@ public class RegistrationController implements Initializable{
         showRegistration();
     }
     
-    public void updateButton() {
+    public void updateRegistration() {
+        System.out.println("Update Registration method called");
+
         String selectedEmail = tfEmails.getValue();
         String selectedCourse = tfCourses.getValue();
         String date = String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText());
@@ -159,6 +167,8 @@ public class RegistrationController implements Initializable{
     }
     
     private void initializeComboBox() {
+        System.out.println("InitializeComboBox method called");
+
         ObservableList<String> emailsList = ParticipantDAO.getEmails();
         tfEmails.setItems(emailsList);
 
@@ -167,6 +177,7 @@ public class RegistrationController implements Initializable{
     }
 
     public void setText() {
+        System.out.println("Set Text Registration");
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
     
         if (selectedRegistration != null) {
@@ -180,12 +191,12 @@ public class RegistrationController implements Initializable{
                 tfDateMonth.setText(dateParts[1]);
                 tfDateDay.setText(dateParts[2]);
             }
-    
-            System.out.println("Set Text in");
         }
     }
     
     public void clear() {
+        System.out.println("Clear");
+        
         tfEmails.setValue(null);
         tfCourses.setValue(null);
         tfDateYear.clear();
@@ -194,7 +205,7 @@ public class RegistrationController implements Initializable{
     }
 
     private boolean validateInput() {
-
+        
         // Check if the date is correct
         int day = Integer.parseInt(tfDateDay.getText());
         int month = Integer.parseInt(tfDateMonth.getText());

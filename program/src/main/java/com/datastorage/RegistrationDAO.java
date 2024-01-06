@@ -25,6 +25,8 @@ public class RegistrationDAO {
     }
 
     public static void printRegistration() {
+        System.out.println("Print Registration Called");
+
         try { Connection db = SQLServerDatabase.getDatabase().getConnection();
             // Prints full table of Participant
             PreparedStatement statement = db.prepareStatement("SELECT * FROM Registration;");
@@ -38,6 +40,8 @@ public class RegistrationDAO {
     }
 
     public static ObservableList<Registration> getRegistrations() {
+        System.out.println("Get Registrations Called");
+
         ObservableList<Registration> registrations = FXCollections.observableArrayList();
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "SELECT * FROM Registration;";
@@ -60,6 +64,8 @@ public class RegistrationDAO {
     }
 
     public static void insertRegistration(String email, String courseName, String date) {
+        System.out.println("Insert Registration Called");
+
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "INSERT INTO Registration VALUES (?, ?, ?)";
         try {
@@ -74,6 +80,8 @@ public class RegistrationDAO {
     }
 
     public static void deleteRegistration(String email, String courseName, String date) {
+        System.out.println("Delete Registration Called");
+
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ? And Date = ?";
         try {
@@ -88,6 +96,8 @@ public class RegistrationDAO {
     }
 
     public static void updateRegistration(String email, String courseName, String date) {
+        System.out.println("Update Registration Called");
+
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "UPDATE Registration SET Date = ? WHERE EmailAddress = ? AND CourseName = ? AND Date = ?";
         try {
@@ -101,8 +111,4 @@ public class RegistrationDAO {
             System.out.println(e);
         }
     }
-    
-    
-   
-    
 }
