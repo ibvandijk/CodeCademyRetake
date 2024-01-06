@@ -15,7 +15,11 @@
             <Font size="20.0" />
          </font>
       </Text>
-      <Button fx:id="btnStatistics" layoutX="399.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="123.0" text="General Statistics" />
+
+      <!-- <Button fx:id="btnStatistics" layoutX="399.0" layoutY="385.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="123.0" text="General Statistics" /> -->
       <!-- <Button fx:id="btnCertificate" layoutX="417.0" layoutY="301.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="87.0" text="Certificate" /> -->
+
+      <Button fx:id="btnStatistics" layoutX="399.0" layoutY="370.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="26.0" prefWidth="123.0" text="General Statistics" /> 
+
    </children>
 </AnchorPane>

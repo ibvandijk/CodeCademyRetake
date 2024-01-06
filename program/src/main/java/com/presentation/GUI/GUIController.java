@@ -25,6 +25,9 @@ public class GUIController implements Initializable {
 
     @FXML
     private Button btnCertificate;
+
+    @FXML
+    private Button btnStatistics;
     
     @FXML
     void handleButtonAction(ActionEvent event) throws IOException {
@@ -47,6 +50,10 @@ public class GUIController implements Initializable {
         //     stage = (Stage) btnCertificate.getScene().getWindow();
         //     root = FXMLLoader.load(getClass().getResource("../Certificate/layoutCertificate.fxml"));
         // } 
+        if (event.getSource() == btnStatistics) {
+            stage = (Stage) btnStatistics.getScene().getWindow();
+            root = FXMLLoader.load(getClass().getResource("../Statistics/layoutStatistics.fxml"));
+        }
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
