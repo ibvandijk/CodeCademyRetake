@@ -83,21 +83,22 @@ public class RegistrationController implements Initializable{
         else if (event.getSource() == btnDelete) {
             deleteRegistration();
         } 
-        if (event.getSource() == btnClear) {
+        else if (event.getSource() == btnClear) {
             isClicked = true;
             clear();    
         } 
-        if(event.getSource() == btnBack) {
+        else if(event.getSource() == btnBack) {
             backToHome();
         }
-        if(event.getSource() == btnUpdate && !isClicked){
-            isClicked = true;
-            setText();
-        } else {
+        else if (event.getSource() == btnUpdate && isClicked) {
             if (validateInput()) {
                 updateRegistration();
                 isClicked = false;
             }
+        }
+        else if (event.getSource() == btnUpdate && !isClicked) {
+            isClicked = true;
+            setText();
         }
     }
 
