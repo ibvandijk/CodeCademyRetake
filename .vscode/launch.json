@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "StatisticsUI",
+            "request": "launch",
+            "mainClass": "com.presentation.Statistics.StatisticsUI",
+            "projectName": "program"
+        },
+        {
+            "type": "java",
             "name": "ParticipantDetailsDAO",
             "request": "launch",
             "mainClass": "com.datastorage.ParticipantProgressDAO",

@@ -40,7 +40,7 @@ public class ParticipantProgressDAO {
                 while (result.next()) {
                         // Retrieve and add the CertificaatNaam (course name)
                         String courseName = result.getString("CourseName");
-                        String date = result.getString("Date");
+                        String date = result.getString("RegistrationDate");
 
                     registrationList.add(new Registration(emailAddress, courseName, date));
                 }
@@ -129,7 +129,7 @@ public class ParticipantProgressDAO {
         try {
             Connection conn = SQLServerDatabase.getDatabase().getConnection();
             String insertQuery = "INSERT INTO Certificate (EmailAddress, CourseName, CertificateDate) VALUES (?, ?, ?)";
-            String deleteQuery = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ? AND Date = ?";
+            String deleteQuery = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ? AND RegistrationDate = ?";
        
             PreparedStatement stmInsert = conn.prepareStatement(insertQuery);
 
@@ -148,4 +148,5 @@ public class ParticipantProgressDAO {
             e.printStackTrace();
         }
     }
+    
 }

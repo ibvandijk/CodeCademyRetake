@@ -143,7 +143,7 @@ public class DetailParticipantController implements Initializable {
         System.out.println("Fill up Registration table");
 
         colRegCourses.setCellValueFactory(new PropertyValueFactory<>("CourseName"));
-        colRegDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
+        colRegDate.setCellValueFactory(new PropertyValueFactory<>("RegistrationDate"));
 
         ObservableList<Registration> registrationList = ParticipantProgressDAO.getRegistrationsByEmail(participantEmail);
 
@@ -172,7 +172,7 @@ public class DetailParticipantController implements Initializable {
         if (selectedRegistration != null) {
             String email = selectedRegistration.getEmail();
             String courseName = selectedRegistration.getCourseName();
-            String date = selectedRegistration.getDate();
+            String date = selectedRegistration.getRegistrationDate();
     
             ParticipantProgressDAO.insertCertificate(email, courseName, date);
             initializeCertificatesTable();

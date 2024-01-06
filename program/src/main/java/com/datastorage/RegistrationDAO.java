@@ -53,7 +53,7 @@ public class RegistrationDAO {
                 Registration registration = new Registration(
                     rs.getString("EmailAddress"),
                     rs.getString("CourseName"),
-                    rs.getDate("Date").toString());
+                    rs.getDate("RegistrationDate").toString());
                 registrations.add(registration);
             }
 
@@ -83,7 +83,7 @@ public class RegistrationDAO {
         System.out.println("Delete Registration Called");
 
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ? And Date = ?";
+        String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ? And RegistrationDate = ?";
         try {
             PreparedStatement stm = conn.prepareStatement(query);
             stm.setString(1, email);
@@ -95,20 +95,23 @@ public class RegistrationDAO {
         }
     }
 
-    public static void updateRegistration(String email, String courseName, String date) {
+    public static void updateRegistration(String email, String courseName, Date date) {
         System.out.println("Update Registration Called");
-
+    
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "UPDATE Registration SET Date = ? WHERE EmailAddress = ? AND CourseName = ? AND Date = ?";
+        String query = "UPDATE Registration SET RegistrationDate = ? WHERE EmailAddress = ? AND CourseName = ?";
+        
         try {
             PreparedStatement stm = conn.prepareStatement(query);
-            stm.setDate(1, Date.valueOf(date));
+    
+            stm.setDate(1, date);
             stm.setString(2, email);
             stm.setString(3, courseName);
-            stm.setDate(4, Date.valueOf(date));
+    
             stm.execute();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
+    
 }

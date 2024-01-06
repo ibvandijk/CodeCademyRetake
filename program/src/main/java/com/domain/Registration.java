@@ -4,12 +4,12 @@ public class Registration {
 
     private String email;
     private String courseName;
-    private String date;
+    private String registrationDate;
 
-    public Registration(String email, String courseName, String date) {
+    public Registration(String email, String courseName, String registrationDate) {
         this.email = email;
         this.courseName = courseName;
-        this.date = date;
+        this.registrationDate = registrationDate;
     }
 
     public Registration(String emailAddress, String courseName) {
@@ -33,12 +33,12 @@ public class Registration {
         this.courseName = courseName;
     }
 
-    public String getDate() {
-        return this.date;
+    public String getRegistrationDate() {
+        return this.registrationDate;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setRegistrationDate(String date) {
+        this.registrationDate = date;
     }
 
 

@@ -5,6 +5,7 @@ import com.presentation.Validation.InputValidation;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 import com.datastorage.CourseDAO;
 import com.datastorage.ParticipantDAO;
@@ -125,7 +126,7 @@ public class RegistrationController implements Initializable{
 
         colEmail.setCellValueFactory(new PropertyValueFactory<Registration, String>("Email"));
         colCourseName.setCellValueFactory(new PropertyValueFactory<Registration, String>("CourseName"));
-        colDate.setCellValueFactory(new PropertyValueFactory<Registration, String>("Date"));
+        colDate.setCellValueFactory(new PropertyValueFactory<Registration, String>("RegistrationDate"));
 
         tvRegistrations.setItems(registrationsList);
     }
@@ -148,7 +149,7 @@ public class RegistrationController implements Initializable{
 
         String selectedEmail = selectedRegistration.getEmail();
         String selectedCourse = selectedRegistration.getCourseName();
-        String selectedDate = selectedRegistration.getDate();
+        String selectedDate = selectedRegistration.getRegistrationDate();
 
         RegistrationDAO.deleteRegistration(selectedEmail, selectedCourse, selectedDate);
 
@@ -160,8 +161,10 @@ public class RegistrationController implements Initializable{
 
         String selectedEmail = tfEmails.getValue();
         String selectedCourse = tfCourses.getValue();
-        String date = String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText());
+        Date date = Date.valueOf(tfDateYear.getText() + "-" + tfDateMonth.getText() + "-" + tfDateDay.getText());
+
         RegistrationDAO.updateRegistration(selectedEmail, selectedCourse, date);
+
         clear();
         showRegistration();
     }
@@ -185,7 +188,7 @@ public class RegistrationController implements Initializable{
             tfCourses.setValue(selectedRegistration.getCourseName());
     
             // Parse the date string and set each part separately
-            String[] dateParts = selectedRegistration.getDate().split("-");
+            String[] dateParts = selectedRegistration.getRegistrationDate().split("-");
             if (dateParts.length == 3) {
                 tfDateYear.setText(dateParts[0]);
                 tfDateMonth.setText(dateParts[1]);
