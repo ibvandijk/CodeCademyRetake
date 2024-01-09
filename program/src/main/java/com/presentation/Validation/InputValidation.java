@@ -24,7 +24,8 @@ public class InputValidation {
 
     public static boolean isValidURL(String url) {
         // Check if the URL starts with "https://" or "http://" and contains at least one letter in each section
-        return true;
+        String urlRegex = "^(https?://)[A-Za-z]+\\.[A-Za-z]+\\.[A-Za-z]+$";
+        return url.matches(urlRegex);
     }
 
     public static boolean isValidEmail(String email) {
