@@ -1,4 +1,4 @@
-package com.presentation.Participant;
+package com.logic;
 
 import java.io.IOException;
 import java.net.URL;
@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import com.datastorage.ParticipantDAO;
 import com.domain.Participant;
-import com.presentation.DetailsParticipant.DetailParticipantController;
 import com.presentation.Validation.InputValidation;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -254,7 +253,7 @@ public class ParticipantController implements Initializable {
         Parent root = null;
 
         stage = (Stage) btnBack.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
+        root = FXMLLoader.load(getClass().getResource("../presentation/GUI/LayoutGUI.fxml"));
             
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -264,7 +263,7 @@ public class ParticipantController implements Initializable {
     public void toParticipantDetails() throws IOException{
         System.out.println("To Participant Details");
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("../DetailsParticipant/layoutDetailParticipant.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../presentation/DetailsParticipant/layoutDetailParticipant.fxml"));
         Parent root = loader.load();
         DetailParticipantController detailController = loader.getController();
     

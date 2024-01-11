@@ -1,4 +1,4 @@
-package com.presentation.Statistics;
+package com.logic;
 
 import java.io.IOException;
 import java.net.URL;
@@ -62,7 +62,7 @@ public class StatisticsController implements Initializable {
         try {
             Stage stage = (Stage) btnBack.getScene().getWindow();
 
-            Parent root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("../presentation/GUI/LayoutGUI.fxml"));
 
             Scene scene = new Scene(root);
             stage.setScene(scene);

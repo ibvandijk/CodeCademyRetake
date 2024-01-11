@@ -7,10 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-    prefHeight="600.0" prefWidth="850.0"
-    xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="com.presentation.Statistics.StatisticsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.logic.StatisticsController">
     <children>
         <VBox layoutX="50.0" layoutY="50.0" prefHeight="800.0" prefWidth="1000.0" spacing="10.0">
             <children>

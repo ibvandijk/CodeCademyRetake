@@ -11,7 +11,7 @@ public class DetailParticipantUI extends Application {
     @Override
     public void start(Stage stage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("../DetailsParticipant/layoutDetailParticipant.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("./layoutDetailParticipant.fxml"));
 
         Scene scene = new Scene(root);
 

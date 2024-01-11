@@ -11,7 +11,7 @@ public class RegistrationUI extends Application {
   @Override
     public void start(Stage stage) throws Exception{
 
-        Parent root = FXMLLoader.load(getClass().getResource("../Registration/layoutRegistration.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("./layoutRegistration.fxml"));
 
         Scene scene = new Scene(root);
 

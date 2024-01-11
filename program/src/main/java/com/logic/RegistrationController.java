@@ -1,4 +1,4 @@
-package com.presentation.Registration;
+package com.logic;
 
 import com.domain.Registration;
 import com.presentation.Validation.InputValidation;
@@ -114,7 +114,7 @@ public class RegistrationController implements Initializable {
         Parent root = null;
 
         stage = (Stage) btnBack.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
+        root = FXMLLoader.load(getClass().getResource("../presentation/GUI/LayoutGUI.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

@@ -1,4 +1,4 @@
-package com.presentation.GUI;
+package com.logic;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
 
 public class GUIController implements Initializable {
     
@@ -36,7 +37,7 @@ public class GUIController implements Initializable {
 
         if (event.getSource() == btnParticipants) {
             stage = (Stage) btnParticipants.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../Participant/layoutParticipant.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../presentation/Participant/layoutParticipant.fxml"));
         } 
         if (event.getSource() == btnCourses) {
             stage = (Stage) btnCourses.getScene().getWindow();
@@ -44,15 +45,11 @@ public class GUIController implements Initializable {
         }
         if (event.getSource() == btnRegistrations) {
             stage = (Stage) btnRegistrations.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../Registration/layoutRegistration.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../presentation/Registration/layoutRegistration.fxml"));
         }       
-        // if (event.getSource() == btnCertificate) {
-        //     stage = (Stage) btnCertificate.getScene().getWindow();
-        //     root = FXMLLoader.load(getClass().getResource("../Certificate/layoutCertificate.fxml"));
-        // } 
         if (event.getSource() == btnStatistics) {
             stage = (Stage) btnStatistics.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../Statistics/layoutStatistics.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../presentation/Statistics/layoutStatistics.fxml"));
         }
 
         Scene scene = new Scene(root);

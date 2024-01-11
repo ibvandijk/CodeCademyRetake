@@ -1,4 +1,4 @@
-package com.presentation.DetailsParticipant;
+package com.logic;
 
 import java.io.IOException;
 import java.net.URL;
