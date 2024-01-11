@@ -25,7 +25,8 @@ public class CourseDetailController {
     private TableColumn<Module, String> colModuleName, colModuleDescription;
     @FXML
     private Label lblModuleTitle, lblModuleVersion, lblModuleDescription, lblContactPersonName, lblContactPersonEmail, lblAverageProgress;
-
+    @FXML
+    private Label lblStudentsCompleted;
 
     private Course selectedCourse;
 
@@ -55,6 +56,8 @@ public class CourseDetailController {
         this.selectedCourse = course;
         displayCourseDetails();
         loadModulesForCourse();
+        int studentsCompleted = getStudentsCompleted(course);
+        lblStudentsCompleted.setText(String.valueOf(studentsCompleted));
     }
 
     private void configureTableView() {
@@ -102,11 +105,36 @@ public class CourseDetailController {
     }
     System.out.println(modules);
     tvModules.setItems(modules);
-}
+    }
 
 
     @FXML
     private void handleBackAction() {
         // Logic to go back
+    }
+
+    private int getStudentsCompleted(Course course) {
+        int studentsCompleted = 0;
+        String courseName = course.getCourseName();
+
+        String query = "SELECT COUNT(DISTINCT Registration.EmailAddress) AS AantalCursisten " +
+                       "FROM Registration " +
+                       "WHERE Registration.CourseName = ?";
+
+        try (Connection conn = SQLServerDatabase.getDatabase().getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, courseName);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    studentsCompleted = rs.getInt("AantalCursisten");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return studentsCompleted;
     }
 }
