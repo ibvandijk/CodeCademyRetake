@@ -37,6 +37,7 @@
             <TextField fx:id="tfSubject" />
             <TextArea fx:id="tfIntroductiontext" prefHeight="148.0" prefWidth="277.0" />
             <TextField fx:id="tfDifficulty" />
+             <ComboBox fx:id="cbModuleNames" /> <!-- choose module -->
          </children>
       </VBox>
       <Button fx:id="btnInsert" layoutX="72.0" layoutY="514.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Insert" />
