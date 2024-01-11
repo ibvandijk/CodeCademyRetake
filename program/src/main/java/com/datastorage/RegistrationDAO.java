@@ -25,6 +25,8 @@ public class RegistrationDAO {
     }
 
     public static void printRegistration() {
+        System.out.println("Print Registration Called");
+
         try { Connection db = SQLServerDatabase.getDatabase().getConnection();
             // Prints full table of Participant
             PreparedStatement statement = db.prepareStatement("SELECT * FROM Registration;");
@@ -34,12 +36,12 @@ public class RegistrationDAO {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("\n Registration table printed!");
         }
     }
 
     public static ObservableList<Registration> getRegistrations() {
+        System.out.println("Get Registrations Called");
+
         ObservableList<Registration> registrations = FXCollections.observableArrayList();
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "SELECT * FROM Registration;";
@@ -51,7 +53,7 @@ public class RegistrationDAO {
                 Registration registration = new Registration(
                     rs.getString("EmailAddress"),
                     rs.getString("CourseName"),
-                    rs.getDate("Date").toString());
+                    rs.getDate("RegistrationDate").toString());
                 registrations.add(registration);
             }
 
@@ -62,6 +64,8 @@ public class RegistrationDAO {
     }
 
     public static void insertRegistration(String email, String courseName, String date) {
+        System.out.println("Insert Registration Called");
+
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "INSERT INTO Registration VALUES (?, ?, ?)";
         try {
@@ -75,30 +79,39 @@ public class RegistrationDAO {
         }
     }
 
-    public static void deleteRegistration(Registration registration) {
+    public static void deleteRegistration(String email, String courseName, String date) {
+        System.out.println("Delete Registration Called");
+
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ?";
+        String query = "DELETE FROM Registration WHERE EmailAddress = ? AND CourseName = ? And RegistrationDate = ?";
         try {
             PreparedStatement stm = conn.prepareStatement(query);
-            stm.setString(1, registration.getEmail());
-            stm.setString(2, registration.getCourseName());
+            stm.setString(1, email);
+            stm.setString(2, courseName);
+            stm.setDate(3, Date.valueOf(date));
             stm.execute();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    public static void updateRegistration(String email, String courseName, String date) {
+    public static void updateRegistration(String email, String courseName, Date date) {
+        System.out.println("Update Registration Called");
+    
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        String query = "UPDATE Registration SET CourseName = ?, Date = ? WHERE EmailAddress = ?";
+        String query = "UPDATE Registration SET RegistrationDate = ? WHERE EmailAddress = ? AND CourseName = ?";
+        
         try {
             PreparedStatement stm = conn.prepareStatement(query);
-            stm.setString(1, courseName);
-            stm.setDate(2, Date.valueOf(date));
-            stm.setString(3, email);
+    
+            stm.setDate(1, date);
+            stm.setString(2, email);
+            stm.setString(3, courseName);
+    
             stm.execute();
         } catch (Exception e) {
             System.out.println(e);
         }
     }
+    
 }

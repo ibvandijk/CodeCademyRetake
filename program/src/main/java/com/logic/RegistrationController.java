@@ -1,10 +1,11 @@
-package com.presentation.Registration;
+package com.logic;
 
 import com.domain.Registration;
-import com.presentation.Validation.InputValidation;
+import com.logic.Validation.InputValidation;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 import com.datastorage.CourseDAO;
 import com.datastorage.ParticipantDAO;
@@ -24,7 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-public class RegistrationController implements Initializable{
+public class RegistrationController implements Initializable {
     
     @FXML
     private Button btnBack;
@@ -76,27 +77,28 @@ public class RegistrationController implements Initializable{
     void handleButtonAction(ActionEvent event) throws IOException {
         if (event.getSource() == btnInsert) {
             if (validateInput()) {
-                insertButton();
+                insertRegistration();
             }
         }   
         else if (event.getSource() == btnDelete) {
-            deleteButton();
+            deleteRegistration();
         } 
-        if (event.getSource() == btnClear) {
+        else if (event.getSource() == btnClear) {
             isClicked = true;
             clear();    
         } 
-        if(event.getSource() == btnBack) {
+        else if(event.getSource() == btnBack) {
             backToHome();
         }
-        if(event.getSource() == btnUpdate && !isClicked){
-            isClicked = true;
-            setText();
-        } else {
+        else if (event.getSource() == btnUpdate && isClicked) {
             if (validateInput()) {
-                updateButton();
+                updateRegistration();
                 isClicked = false;
             }
+        }
+        else if (event.getSource() == btnUpdate && !isClicked) {
+            isClicked = true;
+            setText();
         }
     }
 
@@ -106,11 +108,13 @@ public class RegistrationController implements Initializable{
     }
 
     public void backToHome() throws IOException{
+        System.out.println("Back To Home");
+
         Stage stage = null;
         Parent root = null;
 
         stage = (Stage) btnBack.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
+        root = FXMLLoader.load(getClass().getResource("../presentation/GUI/LayoutGUI.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -118,16 +122,19 @@ public class RegistrationController implements Initializable{
     }
 
     public void showRegistration() {
+        System.out.println("Show Registrations called");
         ObservableList<Registration> registrationsList = RegistrationDAO.getRegistrations();
 
         colEmail.setCellValueFactory(new PropertyValueFactory<Registration, String>("Email"));
         colCourseName.setCellValueFactory(new PropertyValueFactory<Registration, String>("CourseName"));
-        colDate.setCellValueFactory(new PropertyValueFactory<Registration, String>("Date"));
+        colDate.setCellValueFactory(new PropertyValueFactory<Registration, String>("RegistrationDate"));
 
         tvRegistrations.setItems(registrationsList);
     }
 
-    private void insertButton() {
+    private void insertRegistration() {
+        System.out.println("Insert Registration called");
+
         String selectedEmail = tfEmails.getValue();
         String selectedCourse = tfCourses.getValue();
         String date = String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText());
@@ -136,34 +143,45 @@ public class RegistrationController implements Initializable{
         showRegistration();
     }
     
-    public void deleteButton() {
+    public void deleteRegistration() {
+        System.out.println("Delete Registration method called");
+
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
-        if (selectedRegistration != null) {
-            RegistrationDAO.deleteRegistration(selectedRegistration);
-            showRegistration();
-        } else {
-            System.out.println("No registration selected for deletion.");
-        }
+
+        String selectedEmail = selectedRegistration.getEmail();
+        String selectedCourse = selectedRegistration.getCourseName();
+        String selectedDate = selectedRegistration.getRegistrationDate();
+
+        RegistrationDAO.deleteRegistration(selectedEmail, selectedCourse, selectedDate);
+
+        showRegistration();
     }
     
-    public void updateButton() {
+    public void updateRegistration() {
+        System.out.println("Update Registration method called");
+
         String selectedEmail = tfEmails.getValue();
         String selectedCourse = tfCourses.getValue();
-        String date = String.valueOf(tfDateYear.getText()) + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText());
+        Date date = Date.valueOf(tfDateYear.getText() + "-" + tfDateMonth.getText() + "-" + tfDateDay.getText());
+
         RegistrationDAO.updateRegistration(selectedEmail, selectedCourse, date);
+
         clear();
         showRegistration();
     }
     
     private void initializeComboBox() {
+        System.out.println("InitializeComboBox method called");
+
         ObservableList<String> emailsList = ParticipantDAO.getEmails();
         tfEmails.setItems(emailsList);
 
-        ObservableList<String> coursesList = CourseDAO.getCourseNames();  // Assuming you have a CourseDAO
+        ObservableList<String> coursesList = CourseDAO.getCourseNames();
         tfCourses.setItems(coursesList);
     }
 
     public void setText() {
+        System.out.println("Set Text Registration");
         Registration selectedRegistration = tvRegistrations.getSelectionModel().getSelectedItem();
     
         if (selectedRegistration != null) {
@@ -171,18 +189,18 @@ public class RegistrationController implements Initializable{
             tfCourses.setValue(selectedRegistration.getCourseName());
     
             // Parse the date string and set each part separately
-            String[] dateParts = selectedRegistration.getDate().split("-");
+            String[] dateParts = selectedRegistration.getRegistrationDate().split("-");
             if (dateParts.length == 3) {
                 tfDateYear.setText(dateParts[0]);
                 tfDateMonth.setText(dateParts[1]);
                 tfDateDay.setText(dateParts[2]);
             }
-    
-            System.out.println("Set Text in");
         }
     }
     
     public void clear() {
+        System.out.println("Clear");
+        
         tfEmails.setValue(null);
         tfCourses.setValue(null);
         tfDateYear.clear();
@@ -191,7 +209,7 @@ public class RegistrationController implements Initializable{
     }
 
     private boolean validateInput() {
-
+        
         // Check if the date is correct
         int day = Integer.parseInt(tfDateDay.getText());
         int month = Integer.parseInt(tfDateMonth.getText());

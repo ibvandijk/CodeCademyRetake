@@ -1,4 +1,4 @@
-package com.presentation.Participant;
+package com.presentation.Statistics;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -6,12 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class ParticipantUI extends Application {
+public class StatisticsUI extends Application {
 
     @Override
-    public void start(Stage stage) throws Exception{
-
-        Parent root = FXMLLoader.load(getClass().getResource("./layoutParticipant.fxml"));
+    public void start(Stage stage) throws Exception {
+        
+        Parent root = FXMLLoader.load(getClass().getResource("../Statistics/layoutStatistics.fxml"));
 
         Scene scene = new Scene(root);
 
@@ -22,3 +22,4 @@ public class ParticipantUI extends Application {
         stage.show();
     }
 }
+

@@ -1,17 +1,14 @@
-package com.presentation.Participant;
+package com.logic;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import com.datastorage.ParticipantDAO;
-import com.datastorage.SQLServerDatabase;
 import com.domain.Participant;
-import com.presentation.DetailsParticipant.DetailParticipantController;
-import com.presentation.Validation.InputValidation;
+import com.logic.Validation.InputValidation;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -114,11 +111,11 @@ public class ParticipantController implements Initializable {
     void handleButtonAction(ActionEvent event) throws IOException {
         if (event.getSource() == btnInsert) {
             if (validateInput()) {
-                    insertButton();
+             insertParticipant();
             }
         }
         else if (event.getSource() == btnDelete) {
-            deleteButton();
+            deleteParticipant();
         } 
         else if (event.getSource() == btnClear) {
             isClicked = true;
@@ -126,7 +123,7 @@ public class ParticipantController implements Initializable {
         } 
         else if (event.getSource() == btnUpdate && isClicked) {
             if (validateInput()) {
-                updateButton();
+                updateParticipant();
                 isClicked = false;
             }
         }
@@ -138,132 +135,81 @@ public class ParticipantController implements Initializable {
             backToHome();
         }
         else if (event.getSource() == btnDetails) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../DetailsParticipant/layoutDetailParticipant.fxml"));
-            Parent root = loader.load();
-            DetailParticipantController detailController = loader.getController();
-    
-            String selectedEmail = tvParticipants.getSelectionModel().getSelectedItem().getEmail();
-            System.out.println(selectedEmail);
-    
-            detailController.setParticipantEmail(selectedEmail);
-
-            detailController.loadParticipantDetails();
-    
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
+            toParticipantDetails();
         }
     }
 
-        public void initialize(URL url, ResourceBundle rb) {
-            showParticipant();
-        }
+    public void initialize(URL url, ResourceBundle rb) {
+        showParticipant();
+    }
 
-        public void backToHome() throws IOException{
-            Stage stage = null;
-            Parent root = null;
+    public void showParticipant() {
+        System.out.println("Show Participants method called");
 
-            stage = (Stage) btnBack.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
-            
-
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        }
-
-        public void showParticipant() {
-            System.out.println("Show Participants Method Called");
-            ObservableList<Participant> participantList = ParticipantDAO.getParticipants();
+        ObservableList<Participant> participantList = ParticipantDAO.getParticipants();
         
-            colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-            colName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("name"));
         
-            tvParticipants.setItems(participantList);
-        }
+        tvParticipants.setItems(participantList);
+    }
 
+    private void insertParticipant() {
+        System.out.println("Insert Participant method called");
 
-        private void insertButton() {
-            System.out.println("Insert Participant Method Called");
+        LocalDate birthdate = LocalDate.of(
+            Integer.parseInt(tfDateYear.getText()),
+            Integer.parseInt(tfDateMonth.getText()),
+            Integer.parseInt(tfDateDay.getText())
+        );
 
-            LocalDate birthdate = LocalDate.of(
-                    Integer.parseInt(tfDateYear.getText()),
-                    Integer.parseInt(tfDateMonth.getText()),
-                    Integer.parseInt(tfDateDay.getText())
-            );
+        ParticipantDAO.insertParticipant(
+            tfEmail.getText(),
+            tfName.getText(),
+            birthdate,
+            tfGender.getText(),
+            tfAddress.getText(),
+            tfPostalCode.getText(),
+            tfCity.getText(),
+            tfCountry.getText()
+        );
 
-            ParticipantDAO.insertParticipant(
-                    tfEmail.getText(),
-                    tfName.getText(),
-                    birthdate,
-                    tfGender.getText(),
-                    tfAddress.getText(),
-                    tfPostalCode.getText(),
-                    tfCity.getText(),
-                    tfCountry.getText()
-            );
-
-            clear();
-            showParticipant();
-        }
+        clear();
+        showParticipant();
+    }
     
+    public void deleteParticipant() {
+        System.out.println("Delete Participant method called");
 
-        public void deleteButton() {
-            System.out.println("Delete Participant Method Called");
+        String selectedEmail = tvParticipants.getSelectionModel().getSelectedItem().getEmail();
 
-            String selectedEmail = tvParticipants.getSelectionModel().getSelectedItem().getEmail();
+        ParticipantDAO.deleteParticipant(selectedEmail);
 
-            ParticipantDAO.deleteParticipantByEmail(selectedEmail);
+        showParticipant();
+    }
 
-            showParticipant();
-        }
+    public void updateParticipant() {
+        System.out.println("Update Participant method called");
 
-    public void updateButton() {
-        System.out.println("Update Participant Method Called");
+        String email = tfEmail.getText();
+        String name = tfName.getText();
+        Date birthdate = Date.valueOf(tfDateYear.getText() + "-" + tfDateMonth.getText() + "-" + tfDateDay.getText());
+        String gender = tfGender.getText();
+        String address = tfAddress.getText();
+        String postalCode = tfPostalCode.getText();
+        String city = tfCity.getText();
+        String country = tfCountry.getText();
 
-        Connection conn = SQLServerDatabase.getDatabase().getConnection();
-        try {
-            String value1 = tfEmail.getText();
-            String value2 = tfName.getText();
-            Date value3 = Date.valueOf(String.valueOf(tfDateYear.getText())  + "-" + String.valueOf(tfDateMonth.getText()) + "-" + String.valueOf(tfDateDay.getText()));
-            String value4 = tfGender.getText();
-            String value5 = tfAddress.getText();
-            String value6 = tfPostalCode.getText();
-            String value7 = tfCity.getText();
-            String value8 = tfCountry.getText();
-            System.out.println("Put Text in");
+        ParticipantDAO.updateParticipant(email, name, birthdate, gender, address, postalCode, city, country);
 
-            String query = "UPDATE Participant SET EmailAddress= '" + value1 +
-            "',Name= '" + value2 + 
-            "',Birthdate= '" + value3 + 
-            "',Gender= '" + value4 + 
-            "',Address= '" + value5 + 
-            "',PostalCode= '" + value6 + 
-            "',City= '" + value7 + 
-            "',Country= '" + value8 + 
-
-            "' where EmailAddress='" + value1 + "' ";
-            System.out.println("query");
-
-            PreparedStatement stm = conn.prepareStatement(query);
-
-            System.out.println("execute");
-            stm.execute();
-            clear();
-            showParticipant();
-
-        } catch (Exception e) {
-
-            System.out.println(e);
-        }
+        clear();
+        showParticipant();
     }
 
     public void setText() {
-        System.out.println("Set Text Method Called");
+        System.out.println("Set Text Participant");
 
         Participant selectedParticipant = tvParticipants.getSelectionModel().getSelectedItem();
-
-        System.out.println("Selected Participant: " + selectedParticipant);
 
         tfEmail.setText(tvParticipants.getSelectionModel().getSelectedItem().getEmail());
         tfName.setText(tvParticipants.getSelectionModel().getSelectedItem().getName());
@@ -284,10 +230,7 @@ public class ParticipantController implements Initializable {
         tfPostalCode.setText(tvParticipants.getSelectionModel().getSelectedItem().getPostalCode());
         tfCity.setText(tvParticipants.getSelectionModel().getSelectedItem().getCity());
         tfCountry.setText(tvParticipants.getSelectionModel().getSelectedItem().getCountry());
-
-        System.out.println("Set Text in");
     }
-
 
     public void clear() {
         System.out.println("Clear");
@@ -302,6 +245,39 @@ public class ParticipantController implements Initializable {
         tfPostalCode.clear();
         tfCity.clear();
         tfCountry.clear();
+    }
+
+    public void backToHome() throws IOException{
+        System.out.println("Back To Home");
+
+        Stage stage = null;
+        Parent root = null;
+
+        stage = (Stage) btnBack.getScene().getWindow();
+        root = FXMLLoader.load(getClass().getResource("../presentation/GUI/LayoutGUI.fxml"));
+            
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void toParticipantDetails() throws IOException{
+        System.out.println("To Participant Details");
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../presentation/DetailsParticipant/layoutDetailParticipant.fxml"));
+        Parent root = loader.load();
+        DetailParticipantController detailController = loader.getController();
+    
+        String selectedEmail = tvParticipants.getSelectionModel().getSelectedItem().getEmail();
+        System.out.println(selectedEmail);
+    
+        detailController.setParticipantEmail(selectedEmail);
+
+        detailController.loadParticipantDetails();
+    
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     private boolean validateInput() {

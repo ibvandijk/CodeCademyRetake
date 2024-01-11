@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "StatisticsUI",
+            "request": "launch",
+            "mainClass": "com.presentation.Statistics.StatisticsUI",
+            "projectName": "program"
+        },
+        {
+            "type": "java",
+            "name": "ParticipantDetailsDAO",
+            "request": "launch",
+            "mainClass": "com.datastorage.ParticipantProgressDAO",
+            "projectName": "program"
+        },
+        {
             "name": "Java",
             "type": "java",
             "request": "launch",

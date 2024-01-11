@@ -1,10 +1,18 @@
-package com.presentation.Validation;
+package com.logic.Validation;
 
 import java.time.LocalDate;
 
 import javafx.scene.control.Alert;
 
 public class InputValidation {
+
+    public static void showInformation(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     public static  void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -16,7 +24,8 @@ public class InputValidation {
 
     public static boolean isValidURL(String url) {
         // Check if the URL starts with "https://" or "http://" and contains at least one letter in each section
-        return true;
+        String urlRegex = "^(https?://)[A-Za-z]+\\.[A-Za-z]+\\.[A-Za-z]+$";
+        return url.matches(urlRegex);
     }
 
     public static boolean isValidEmail(String email) {

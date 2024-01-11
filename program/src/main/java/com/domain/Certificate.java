@@ -6,16 +6,19 @@ public class Certificate {
     private String grade;
     private String employeeName;
     private String courseName;
-
-    public Certificate(String emailAddress, String grade, String employeeName, String courseName) {
+    private String date;
+    
+    public Certificate(String emailAddress, String grade, String employeeName, String courseName, String date) {
         this.emailAddress = emailAddress;
         this.grade = grade;
         this.employeeName = employeeName;
         this.courseName = courseName;
+        this.date = date;
     }
 
-    public Certificate(String courseName) {
+    public Certificate(String courseName, String date) {
         this.courseName = courseName;
+        this.date = date;
     }
 
     public String getEmailAddress() {
@@ -48,6 +51,14 @@ public class Certificate {
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
+    }
+
+    public String getCertificateDate() {
+        return this.date;
+    }
+
+    public void setCertificateDate(String date) {
+        this.date = date;
     }
 
 }
