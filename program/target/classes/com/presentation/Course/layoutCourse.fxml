@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -9,38 +10,47 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.collections.FXCollections?>
-<?import javafx.collections.ObservableList?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.logic.CourseController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="614.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.logic.CourseController">
    <children>
-      <VBox layoutX="8.0" layoutY="166.0" prefHeight="158.0" prefWidth="105.0" spacing="25.0">
+      <VBox layoutX="14.0" layoutY="97.0" prefHeight="158.0" prefWidth="105.0" spacing="25.0">
          <children>
-            <Label text="Coursename" />
+            <Label prefHeight="17.0" prefWidth="79.0" text="Coursename">
+               <VBox.margin>
+                  <Insets top="3.0" />
+               </VBox.margin></Label>
             <Label text="Coursenumber" />
+            <Label text="Subject" />
+            <Label prefHeight="17.0" prefWidth="95.0" text="IntroductionText" />
+            <Label prefHeight="17.0" prefWidth="87.0" text="Difficulty">
+               <VBox.margin>
+                  <Insets top="83.0" />
+               </VBox.margin>
+            </Label>
+            <Label prefHeight="17.0" prefWidth="91.0" text="Module names" />
          </children>
       </VBox>
-      <TableView fx:id="tvCourses" layoutX="413.0" layoutY="20.0" prefHeight="731.0">
+      <TableView fx:id="tvCourses" layoutX="413.0" layoutY="20.0" prefHeight="580.0" prefWidth="372.0">
         <columns>
-            <TableColumn fx:id="colCourseName" prefWidth="232.0" text="CourseName" />
-            <TableColumn fx:id="colCourseNumber" minWidth="0.0" prefWidth="102.0" text="CourseNumber" />
+            <TableColumn fx:id="colCourseName" prefWidth="260.0" text="CourseName" />
+            <TableColumn fx:id="colCourseNumber" minWidth="0.0" prefWidth="111.0" text="CourseNumber" />
         </columns>
       </TableView>
-      <VBox layoutX="105.0" layoutY="168.0" prefHeight="312.0" prefWidth="292.0" spacing="16.0">
+      <VBox layoutX="111.0" layoutY="99.0" prefHeight="312.0" prefWidth="292.0" spacing="16.0">
          <children>
             <TextField fx:id="tfCoursename" prefHeight="25.0" prefWidth="218.0" />
             <TextField fx:id="tfCoursenumber" />
             <TextField fx:id="tfSubject" />
             <TextArea fx:id="tfIntroductiontext" prefHeight="148.0" prefWidth="277.0" />
-            <ComboBox fx:id="cbDifficulty" />
-            <ComboBox fx:id="cbModuleNames" /> <!-- choose module -->
+            <ComboBox fx:id="cbDifficulty" prefHeight="25.0" prefWidth="296.0" />
+            <ComboBox fx:id="cbModuleNames" prefHeight="25.0" prefWidth="294.0" />
          </children>
       </VBox>
-      <Button fx:id="btnInsert" layoutX="72.0" layoutY="514.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Insert" />
-      <Button fx:id="btnUpdate" layoutX="149.0" layoutY="514.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="78.0" text="Update" />
-      <Button fx:id="btnDelete" layoutX="234.0" layoutY="514.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="78.0" text="Delete" />
+      <Button fx:id="btnInsert" layoutX="72.0" layoutY="446.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Insert" />
+      <Button fx:id="btnUpdate" layoutX="149.0" layoutY="446.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="78.0" text="Update" />
+      <Button fx:id="btnDelete" layoutX="234.0" layoutY="446.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="78.0" text="Delete" />
       <Button fx:id="btnBack" layoutX="36.0" layoutY="31.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Back" />
-      <Button fx:id="btnClear" layoutX="71.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="240.0" text="Clear Fields" />
-      <Button fx:id="btnViewCourse" layoutX="71.0" layoutY="583.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="240.0" text="View Course" />
+      <Button fx:id="btnClear" layoutX="71.0" layoutY="485.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="240.0" text="Clear Fields" />
+      <Button fx:id="btnViewCourse" layoutX="71.0" layoutY="515.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="240.0" text="View Course" />
    </children>
 </AnchorPane>
