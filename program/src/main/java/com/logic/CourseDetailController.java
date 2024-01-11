@@ -6,14 +6,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.ObservableList;
-import javafx.collections.FXCollections;
-
-import com.datastorage.SQLServerDatabase;
+import com.datastorage.CourseDAO;
 import com.domain.Course;
 import com.domain.Module; 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 public class CourseDetailController {
 
@@ -43,29 +38,27 @@ public class CourseDetailController {
         });
     }
 
-    private void updateModuleDetails(Module module) {
-        lblModuleTitle.setText(module.getModuleTitle());
-        lblModuleVersion.setText(module.getVersion());
-        lblModuleDescription.setText(module.getModuleDescription());
-        lblContactPersonName.setText(module.getContactPersonName());
-        lblContactPersonEmail.setText(module.getContactPersonEmail());
-        lblAverageProgress.setText(String.format("%.2f%%", module.getAverageProgress()));
-    }
-
     public void setSelectedCourse(Course course) {
         this.selectedCourse = course;
         displayCourseDetails();
-        loadModulesForCourse();
-        int studentsCompleted = getStudentsCompleted(course);
+    
+        ObservableList<Module> modules = CourseDAO.getModulesForCourse(selectedCourse.getCourseName());
+        tvModules.setItems(modules);
+    
+        int studentsCompleted = CourseDAO.getStudentsCompletedForCourse(selectedCourse.getCourseName());
         lblStudentsCompleted.setText(String.valueOf(studentsCompleted));
     }
-
+    
     private void configureTableView() {
+        System.out.println("Fill up Course Details table");
+
         colModuleName.setCellValueFactory(new PropertyValueFactory<>("moduleTitle"));
         colModuleDescription.setCellValueFactory(new PropertyValueFactory<>("moduleDescription"));
     }
 
     private void displayCourseDetails() {
+        System.out.println("Fill up Course Details side");
+
         lblCourseName.setText(selectedCourse.getCourseName());
         lblCourseNumber.setText(String.valueOf(selectedCourse.getCourseNumber()));
         lblSubject.setText(selectedCourse.getSubject());
@@ -73,63 +66,14 @@ public class CourseDetailController {
         lblDifficulty.setText(selectedCourse.getDifficulty());
     }
 
-    private void loadModulesForCourse() {
-    ObservableList<Module> modules = FXCollections.observableArrayList();
-    
-    Connection conn = SQLServerDatabase.getDatabase().getConnection();
-    
-    String query = "SELECT * FROM Module WHERE courseName = ?";
+    private void updateModuleDetails(Module module) {
+        System.out.println("Fill up Module Details table");
 
-    try (PreparedStatement pstmt = conn.prepareStatement(query)) {
-        pstmt.setString(1, selectedCourse.getCourseName());
-
-        System.out.println(selectedCourse.getCourseName());
-
-        try (ResultSet rs = pstmt.executeQuery()) {
-            while (rs.next()) {
-                Module module = new Module(
-                    rs.getString("ModuleTitle"),
-                    rs.getString("ModuleVersion"),
-                    rs.getString("ModuleDescription"),
-                    rs.getString("ContactPersonName"),
-                    rs.getString("ContactPersonEmail"),
-                    rs.getString("courseName")
-                );
-                modules.add(module);
-            }
-            
-            
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    System.out.println(modules);
-    tvModules.setItems(modules);
-    }
-
-
-    private int getStudentsCompleted(Course course) {
-        int studentsCompleted = 0;
-        String courseName = course.getCourseName();
-
-        String query = "SELECT COUNT(DISTINCT Registration.EmailAddress) AS AantalCursisten " +
-                       "FROM Registration " +
-                       "WHERE Registration.CourseName = ?";
-
-        try (Connection conn = SQLServerDatabase.getDatabase().getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-            pstmt.setString(1, courseName);
-
-            try (ResultSet rs = pstmt.executeQuery()) {
-                if (rs.next()) {
-                    studentsCompleted = rs.getInt("AantalCursisten");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return studentsCompleted;
+        lblModuleTitle.setText(module.getModuleTitle());
+        lblModuleVersion.setText(module.getVersion());
+        lblModuleDescription.setText(module.getModuleDescription());
+        lblContactPersonName.setText(module.getContactPersonName());
+        lblContactPersonEmail.setText(module.getContactPersonEmail());
+        lblAverageProgress.setText(String.format("%.2f%%", module.getAverageProgress()));
     }
 }

@@ -1,16 +1,15 @@
 package com.domain;
 
 public class Module {
-
+    
     private String moduleTitle;
     private String version;
     private String moduleDescription;
     private String contactPersonName;
     private String contactPersonEmail;
     private String courseName;
-    private double averageProgress; // New field for average progress
+    private double averageProgress;
 
-    // Constructor including averageProgress
     public Module(String moduleTitle, String version, String moduleDescription, 
                   String contactPersonName, String contactPersonEmail, 
                   String courseName) {
@@ -21,6 +20,7 @@ public class Module {
         this.contactPersonEmail = contactPersonEmail;
         this.courseName = courseName;
     }
+
     public Module(String moduleTitle, String version, String moduleDescription, 
                   String contactPersonName, String contactPersonEmail, 
                   String courseName, double averageProgress) {
@@ -30,10 +30,8 @@ public class Module {
         this.contactPersonName = contactPersonName;
         this.contactPersonEmail = contactPersonEmail;
         this.courseName = courseName;
-        this.averageProgress = averageProgress; // Set the average progress
+        this.averageProgress = averageProgress;
     }
-
-    // Getters and Setters
 
     public String getModuleTitle() {
         return moduleTitle;

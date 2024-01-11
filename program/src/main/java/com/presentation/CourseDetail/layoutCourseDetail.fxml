@@ -35,10 +35,13 @@
                <Label fx:id="lblSubject" prefHeight="17.0" prefWidth="212.0" />
             </children>
          </HBox>
-         <HBox prefHeight="159.0" prefWidth="255.0" spacing="5">
+         <HBox prefHeight="187.0" prefWidth="255.0" spacing="5">
             <children>
                <Label prefHeight="17.0" prefWidth="68.0" text="Intro Text:" />
-               <Label fx:id="lblIntroductionText" prefHeight="22.0" prefWidth="183.0" />
+               <Label fx:id="lblIntroductionText" alignment="TOP_LEFT" contentDisplay="TOP" prefHeight="168.0" prefWidth="183.0" wrapText="true">
+                  <font>
+                     <Font size="11.0" />
+                  </font></Label>
             </children>
          </HBox>
          <HBox spacing="5">
@@ -52,7 +55,12 @@
                <VBox prefHeight="54.0" prefWidth="262.0">
                   <children>
                      <Label text="Amount of students who finished this course: " />
-                     <Label fx:id="lblStudentsCompleted" prefHeight="17.0" prefWidth="54.0" />
+                     <HBox prefHeight="66.0" prefWidth="255.0" spacing="5">
+                        <children>
+                           <Label fx:id="lblStudentsCompleted" alignment="CENTER" prefHeight="17.0" prefWidth="54.0" textAlignment="JUSTIFY" />
+                           <Label fx:id="lblStudentsCompleted1" prefHeight="17.0" prefWidth="74.0" text="Student(s)" />
+                        </children>
+                     </HBox>
                   </children>
                </VBox>
             </children>
