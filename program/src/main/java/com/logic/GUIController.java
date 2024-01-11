@@ -41,7 +41,7 @@ public class GUIController implements Initializable {
         } 
         if (event.getSource() == btnCourses) {
             stage = (Stage) btnCourses.getScene().getWindow();
-            root = FXMLLoader.load(getClass().getResource("../Course/layoutCourse.fxml"));
+            root = FXMLLoader.load(getClass().getResource("../presentation/Course/layoutCourse.fxml"));
         }
         if (event.getSource() == btnRegistrations) {
             stage = (Stage) btnRegistrations.getScene().getWindow();
