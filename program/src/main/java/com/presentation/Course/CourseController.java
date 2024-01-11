@@ -57,15 +57,6 @@ public class CourseController implements Initializable {
     private TableColumn<Course, Integer> colCourseNumber;
 
     @FXML
-    private TableColumn<Course, String> colSubject;
-
-    @FXML
-    private TableColumn<Course, String> colIntroductiontext;
-
-    @FXML
-    private TableColumn<Course, String> colDifficulty;
-
-    @FXML
     private TextField tfCoursename;
 
     @FXML
@@ -78,7 +69,7 @@ public class CourseController implements Initializable {
     private TextArea tfIntroductiontext;
 
     @FXML
-    private TextField tfDifficulty;
+    private ComboBox<String> cbDifficulty;
 
     @FXML
     private TableView<Course> tvCourses;
@@ -123,6 +114,7 @@ public class CourseController implements Initializable {
         showCourse();
         // Populate the ComboBox with module names
         cbModuleNames.setItems(FXCollections.observableArrayList(getModuleNames()));
+        cbDifficulty.setItems(FXCollections.observableArrayList("beginner", "gevorderd", "expert"));
     }
     
     public List<String> getModuleNames() {
@@ -189,51 +181,51 @@ public class CourseController implements Initializable {
 
         colCourseName.setCellValueFactory(new PropertyValueFactory<Course, String>("CourseName"));
         colCourseNumber.setCellValueFactory(new PropertyValueFactory<Course, Integer>("courseNumber"));
-        colSubject.setCellValueFactory(new PropertyValueFactory<Course, String>("Subject"));
-        colIntroductiontext.setCellValueFactory(new PropertyValueFactory<Course, String>("IntroductionText"));
-        colDifficulty.setCellValueFactory(new PropertyValueFactory<Course, String>("Difficulty"));
 
         tvCourses.setItems(courseList);
     }
 
     private void insertButton() {
         System.out.println("Insert Button Clicked");
-
+    
         if (cbModuleNames.getSelectionModel().getSelectedItem() == null) {
             System.out.println("Please select a module.");
             return;
         }
         String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
-
+    
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String insertQuery = "INSERT INTO COURSE VALUES (?, ?, ?, ?, ?)";
         String updateQuery = "UPDATE Module SET CourseName = ? WHERE ModuleTitle = ?";
-
+    
         try {
             // Insert the new course
             PreparedStatement insertStm = conn.prepareStatement(insertQuery);
-
+    
             insertStm.setString(1, tfCoursename.getText());
-
+    
             // Convert the string to an integer using Integer.parseInt
             int courseNumber = Integer.parseInt(tfCoursenumber.getText());
             insertStm.setInt(2, courseNumber);
-
+    
             insertStm.setString(3, tfSubject.getText());
             insertStm.setString(4, tfIntroductiontext.getText());
-            insertStm.setString(5, tfDifficulty.getText());
-
+    
+            // Get the selected difficulty from the ComboBox
+            String difficulty = cbDifficulty.getSelectionModel().getSelectedItem();
+            insertStm.setString(5, difficulty);
+    
             insertStm.execute();
-
+    
             // Update the selected module with the new course name
             PreparedStatement updateStm = conn.prepareStatement(updateQuery);
             updateStm.setString(1, tfCoursename.getText());
             updateStm.setString(2, selectedModule);
-
+    
             updateStm.execute();
-
+    
             clear();
-
+    
             showCourse();
         } catch (Exception e) {
             e.printStackTrace();
@@ -262,7 +254,7 @@ public class CourseController implements Initializable {
         tfCoursenumber.setText(Integer.toString(selectedCourse.getCourseNumber()));
         tfSubject.setText(tvCourses.getSelectionModel().getSelectedItem().getSubject());
         tfIntroductiontext.setText(tvCourses.getSelectionModel().getSelectedItem().getIntroductionText());
-        tfDifficulty.setText(tvCourses.getSelectionModel().getSelectedItem().getDifficulty());
+        cbDifficulty.getSelectionModel().select(tvCourses.getSelectionModel().getSelectedItem().getDifficulty());
 
         System.out.println("Set Text in");
     }
@@ -278,7 +270,7 @@ public class CourseController implements Initializable {
             String value2 = tfCoursenumber.getText();
             String value3 = tfSubject.getText();
             String value4 = tfIntroductiontext.getText();
-            String value5 = tfDifficulty.getText();
+            String value5 = cbDifficulty.getSelectionModel().getSelectedItem();
             System.out.println("Put Text in");
 
             String query = "UPDATE COURSE SET CourseNumber= ?, Subject= ?, IntroductionText= ?, Difficulty= ? WHERE CourseName= ?";
@@ -311,7 +303,7 @@ public class CourseController implements Initializable {
         tfCoursenumber.clear();
         tfSubject.clear();
         tfIntroductiontext.clear();
-        tfDifficulty.clear();
+        cbDifficulty.getSelectionModel().clearSelection();
 
     }
 

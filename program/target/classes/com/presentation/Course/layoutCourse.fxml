@@ -9,25 +9,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.collections.ObservableList?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" prefWidth="1570.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.presentation.Course.CourseController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.presentation.Course.CourseController">
    <children>
       <VBox layoutX="8.0" layoutY="166.0" prefHeight="158.0" prefWidth="105.0" spacing="25.0">
          <children>
             <Label text="Coursename" />
             <Label text="Coursenumber" />
-            <Label text="Subject" />
-            <Label text="Introductiontext" />
-            <Label text="Difficulty" />
          </children>
       </VBox>
-      <TableView fx:id="tvCourses" layoutX="413.0" layoutY="20.0" prefHeight="731.0" prefWidth="1145.0">
+      <TableView fx:id="tvCourses" layoutX="413.0" layoutY="20.0" prefHeight="731.0">
         <columns>
             <TableColumn fx:id="colCourseName" prefWidth="232.0" text="CourseName" />
             <TableColumn fx:id="colCourseNumber" minWidth="0.0" prefWidth="102.0" text="CourseNumber" />
-            <TableColumn fx:id="colSubject" prefWidth="229.0" text="Subject" />
-            <TableColumn fx:id="colIntroductiontext" prefWidth="433.0" text="Introductiontext" />
-            <TableColumn fx:id="colDifficulty" prefWidth="150.0" text="Difficulty" />
         </columns>
       </TableView>
       <VBox layoutX="105.0" layoutY="168.0" prefHeight="312.0" prefWidth="292.0" spacing="16.0">
@@ -36,8 +32,8 @@
             <TextField fx:id="tfCoursenumber" />
             <TextField fx:id="tfSubject" />
             <TextArea fx:id="tfIntroductiontext" prefHeight="148.0" prefWidth="277.0" />
-            <TextField fx:id="tfDifficulty" />
-             <ComboBox fx:id="cbModuleNames" /> <!-- choose module -->
+            <ComboBox fx:id="cbDifficulty" />
+            <ComboBox fx:id="cbModuleNames" /> <!-- choose module -->
          </children>
       </VBox>
       <Button fx:id="btnInsert" layoutX="72.0" layoutY="514.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="25.0" prefWidth="69.0" text="Insert" />
