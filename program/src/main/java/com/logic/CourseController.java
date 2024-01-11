@@ -1,4 +1,4 @@
-package com.presentation.Course;
+package com.logic;
 
 import java.io.IOException;
 import java.net.URL;
@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import com.datastorage.SQLServerDatabase;
 import com.domain.Course;
-import com.presentation.CourseDetail.CourseDetailController;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -112,9 +110,8 @@ public class CourseController implements Initializable {
 
     public void initialize(URL url, ResourceBundle rb) {
         showCourse();
-        // Populate the ComboBox with module names
         cbModuleNames.setItems(FXCollections.observableArrayList(getModuleNames()));
-        cbDifficulty.setItems(FXCollections.observableArrayList("beginner", "gevorderd", "expert"));
+        cbDifficulty.setItems(FXCollections.observableArrayList("beginner", "intermediate", "expert"));
     }
     
     public List<String> getModuleNames() {
@@ -140,7 +137,7 @@ public class CourseController implements Initializable {
         Parent root = null;
 
         stage = (Stage) btnBack.getScene().getWindow();
-        root = FXMLLoader.load(getClass().getResource("../GUI/layoutGUI.fxml"));
+        root = FXMLLoader.load(getClass().getResource("../presentation/GUI/LayoutGUI.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -199,25 +196,21 @@ public class CourseController implements Initializable {
         String updateQuery = "UPDATE Module SET CourseName = ? WHERE ModuleTitle = ?";
     
         try {
-            // Insert the new course
             PreparedStatement insertStm = conn.prepareStatement(insertQuery);
     
             insertStm.setString(1, tfCoursename.getText());
     
-            // Convert the string to an integer using Integer.parseInt
             int courseNumber = Integer.parseInt(tfCoursenumber.getText());
             insertStm.setInt(2, courseNumber);
     
             insertStm.setString(3, tfSubject.getText());
             insertStm.setString(4, tfIntroductiontext.getText());
     
-            // Get the selected difficulty from the ComboBox
             String difficulty = cbDifficulty.getSelectionModel().getSelectedItem();
             insertStm.setString(5, difficulty);
     
             insertStm.execute();
     
-            // Update the selected module with the new course name
             PreparedStatement updateStm = conn.prepareStatement(updateQuery);
             updateStm.setString(1, tfCoursename.getText());
             updateStm.setString(2, selectedModule);
@@ -277,7 +270,7 @@ public class CourseController implements Initializable {
 
                     
             PreparedStatement stm = conn.prepareStatement(query);
-            // Convert the string to an integer using Integer.parseInt
+
             int courseNumber = Integer.parseInt(value2);
             stm.setInt(1, courseNumber);
             stm.setString(2, value3);
@@ -304,26 +297,25 @@ public class CourseController implements Initializable {
         tfSubject.clear();
         tfIntroductiontext.clear();
         cbDifficulty.getSelectionModel().clearSelection();
-
     }
 
     private void viewCourseDetails() throws IOException {
     Course selectedCourse = tvCourses.getSelectionModel().getSelectedItem();
-    if (selectedCourse == null) {
-        // Handle case where no course is selected
-        return;
-    }
+        if (selectedCourse == null) {
+            return;
+        }
 
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("../CourseDetail/layoutCourseDetail.fxml"));
-    Parent courseDetailsRoot = loader.load();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("../presentation/CourseDetail/layoutCourseDetail.fxml"));
+        Parent courseDetailsRoot = loader.load();
 
-    CourseDetailController courseDetailController = loader.getController();
-    courseDetailController.setSelectedCourse(selectedCourse);
+        CourseDetailController courseDetailController = loader.getController();
+        courseDetailController.setSelectedCourse(selectedCourse);
 
-    Stage stage = new Stage();
-    stage.setTitle("Course Details");
-    stage.setScene(new Scene(courseDetailsRoot));
-    stage.show();
+        Stage stage = new Stage();
+
+        stage.setScene(new Scene(courseDetailsRoot));
+
+        stage.show();
     }
 }
 

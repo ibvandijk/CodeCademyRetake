@@ -12,7 +12,7 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.collections.ObservableList?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.presentation.Course.CourseController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="769.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.logic.CourseController">
    <children>
       <VBox layoutX="8.0" layoutY="166.0" prefHeight="158.0" prefWidth="105.0" spacing="25.0">
          <children>

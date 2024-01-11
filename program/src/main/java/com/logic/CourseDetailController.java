@@ -1,4 +1,4 @@
-package com.presentation.CourseDetail;
+package com.logic;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -107,11 +107,6 @@ public class CourseDetailController {
     tvModules.setItems(modules);
     }
 
-
-    @FXML
-    private void handleBackAction() {
-        // Logic to go back
-    }
 
     private int getStudentsCompleted(Course course) {
         int studentsCompleted = 0;
