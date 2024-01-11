@@ -1,7 +1,7 @@
 package com.logic;
 
 import com.domain.Registration;
-import com.presentation.Validation.InputValidation;
+import com.logic.Validation.InputValidation;
 
 import java.io.IOException;
 import java.net.URL;

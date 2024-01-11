@@ -7,7 +7,8 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 import com.datastorage.ParticipantDAO;
 import com.domain.Participant;
-import com.presentation.Validation.InputValidation;
+import com.logic.Validation.InputValidation;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

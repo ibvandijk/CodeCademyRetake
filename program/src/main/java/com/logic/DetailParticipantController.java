@@ -9,7 +9,8 @@ import com.domain.Certificate;
 import com.domain.Participant;
 import com.domain.ParticipantProgress;
 import com.domain.Registration;
-import com.presentation.Validation.InputValidation;
+import com.logic.Validation.InputValidation;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
