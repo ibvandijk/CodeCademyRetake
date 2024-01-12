@@ -41,6 +41,7 @@ public class CourseDAO {
         }
     }
 
+
     public static ObservableList<Course> getCourse() {
         System.out.println("Get Course Called");
 
