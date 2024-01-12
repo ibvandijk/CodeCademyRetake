@@ -43,6 +43,9 @@ public class CourseDetailController {
         if (event.getSource() == btnAddModule) {
             addModuleToCourse();
         } 
+        if (event.getSource() == btnDeleteModule) {
+            removeModuleFromCourse();
+        } 
     }
 
     public void initialize() {
@@ -77,17 +80,6 @@ public class CourseDetailController {
         colModuleDescription.setCellValueFactory(new PropertyValueFactory<>("moduleDescription"));
     }
 
-    private void addModuleToCourse() {
-        System.out.println("Add Module to Course called");
-
-        String courseName = selectedCourse.getCourseName();
-        String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
-
-        CourseDAO.addModuletoCourse(courseName, selectedModule);
-
-        configureTableView();
-    }
-
     private void displayCourseDetails() {
         System.out.println("Fill up Course Details side");
 
@@ -111,4 +103,31 @@ public class CourseDetailController {
         
         lblAverageProgress.setText(String.format("%.2f%%", averageProgress));
     }
+
+    private void addModuleToCourse() {
+        System.out.println("Add Module to Course called");
+
+        String courseName = selectedCourse.getCourseName();
+        String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
+
+        CourseDAO.addModuletoCourse(courseName, selectedModule);
+
+        ObservableList<Module> modules = CourseDAO.getModulesForCourse(selectedCourse.getCourseName());
+        cbModuleNames.setItems(FXCollections.observableArrayList(CourseDAO.getModuleNames()));
+        tvModules.setItems(modules);
+    }
+
+    private void removeModuleFromCourse() {
+        System.out.println("Remove Module from Course called");
+    
+        String selectedModule = tvModules.getSelectionModel().getSelectedItem().getModuleTitle();       
+    
+        CourseDAO.removeModuleFromCourse(selectedModule);
+    
+        ObservableList<Module> modules = CourseDAO.getModulesForCourse(selectedCourse.getCourseName());
+        cbModuleNames.setItems(FXCollections.observableArrayList(CourseDAO.getModuleNames()));
+        tvModules.setItems(modules);
+    }
+    
+
 }

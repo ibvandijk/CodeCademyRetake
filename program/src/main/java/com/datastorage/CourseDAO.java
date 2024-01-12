@@ -291,5 +291,20 @@ public class CourseDAO {
             e.printStackTrace();
         }
     }
+
+    public static void removeModuleFromCourse(String selectedModule) {
+        System.out.println("Remove Module from Course Called");
+        try {
+            Connection conn = SQLServerDatabase.getDatabase().getConnection();
     
+            String updateModuleQuery = "UPDATE Module SET CourseName = NULL WHERE ModuleTitle = ?";
+            try (PreparedStatement updateModuleStm = conn.prepareStatement(updateModuleQuery)) {
+                updateModuleStm.setString(1, selectedModule);
+                updateModuleStm.executeUpdate();
+            }
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
