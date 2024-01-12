@@ -1,11 +1,18 @@
 package com.logic;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+
+import java.io.IOException;
+
 import com.datastorage.CourseDAO;
 import com.domain.Course;
 import com.domain.Module; 
@@ -23,11 +30,25 @@ public class CourseDetailController {
     @FXML
     private Label lblStudentsCompleted;
 
+    @FXML
+    private ComboBox<String> cbModuleNames;
+
+    @FXML
+    private Button btnAddModule, btnDeleteModule;
+
     private Course selectedCourse;
+
+    @FXML
+    void handleButtonAction(ActionEvent event) throws IOException {
+        if (event.getSource() == btnAddModule) {
+            addModuleToCourse();
+        } 
+    }
 
     public void initialize() {
         configureTableView();
         setupModuleSelection();
+        cbModuleNames.setItems(FXCollections.observableArrayList(CourseDAO.getModuleNames()));
     }
 
     private void setupModuleSelection() {
@@ -54,6 +75,17 @@ public class CourseDetailController {
 
         colModuleName.setCellValueFactory(new PropertyValueFactory<>("moduleTitle"));
         colModuleDescription.setCellValueFactory(new PropertyValueFactory<>("moduleDescription"));
+    }
+
+    private void addModuleToCourse() {
+        System.out.println("Add Module to Course called");
+
+        String courseName = selectedCourse.getCourseName();
+        String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
+
+        CourseDAO.addModuletoCourse(courseName, selectedModule);
+
+        configureTableView();
     }
 
     private void displayCourseDetails() {

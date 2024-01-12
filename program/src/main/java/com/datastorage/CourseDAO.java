@@ -274,5 +274,22 @@ public class CourseDAO {
         
         return averageProgressPercentage;
     }
+
+    public static void addModuletoCourse(String courseName, String selectedModule) {
+        System.out.println("Add Module to a Course Called");
+        try {
+            Connection conn = SQLServerDatabase.getDatabase().getConnection();
+            
+            String updateModuleQuery = "UPDATE Module SET CourseName = ? WHERE ModuleTitle = ?";
+            try (PreparedStatement updateModuleStm = conn.prepareStatement(updateModuleQuery)) {
+                updateModuleStm.setString(1, courseName);
+                updateModuleStm.setString(2, selectedModule);
+                updateModuleStm.executeUpdate();
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
 }
