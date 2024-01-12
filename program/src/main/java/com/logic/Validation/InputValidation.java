@@ -23,10 +23,10 @@ public class InputValidation {
     }
 
     public static boolean isValidURL(String url) {
-        // Check if the URL starts with "https://" or "http://" and contains at least one letter in each section
-        String urlRegex = "^(https?://)[A-Za-z]+\\.[A-Za-z]+\\.[A-Za-z]+$";
+        // Check if the URL starts with "https://" or "http://" or "www." and contains at least one letter in each section
+        String urlRegex = "^(https?://|www\\.)[A-Za-z]+\\.[A-Za-z]+$";
         return url.matches(urlRegex);
-    }
+    }        
 
     public static boolean isValidEmail(String email) {
         // Check if the email matches the specified format
