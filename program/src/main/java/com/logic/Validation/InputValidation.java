@@ -67,6 +67,7 @@ public class InputValidation {
     }
 
     public static boolean isValidDutchPostalCode(String postalCode) {
+        if (postalCode == null) { return false; }
         // Check if the postal code matches the specified Dutch format
         // nnnn<spatie>MM, where nnnn is 4 numeric digits, the first digit is not 0,
         // followed by exactly one space, and then two uppercase letters
