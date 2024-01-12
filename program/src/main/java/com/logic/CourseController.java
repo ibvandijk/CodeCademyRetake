@@ -119,21 +119,23 @@ public class CourseController implements Initializable {
     
     private void insertCourse() {
         System.out.println("Insert Course method called");
-
+    
         String difficulty = cbDifficulty.getSelectionModel().getSelectedItem();
-
+        String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
+    
         CourseDAO.insertCourse(
             tfCoursename.getText(),
             Integer.parseInt(tfCoursenumber.getText()),
             tfSubject.getText(),
             tfIntroductiontext.getText(),
-            difficulty
+            difficulty,
+            selectedModule
         );
-
+    
         clear();
         showCourse();
     }
-
+    
     public void deleteCourse() {
         System.out.println("Delete Course method called");
 
@@ -147,19 +149,20 @@ public class CourseController implements Initializable {
 
     public void updateCourse() {
         System.out.println("Update Course method called");
-
+    
         String courseName = tfCoursename.getText();
         int courseNumber = Integer.parseInt(tfCoursenumber.getText());
         String subject = tfSubject.getText();
         String introductionText = tfIntroductiontext.getText();
         String difficulty = cbDifficulty.getSelectionModel().getSelectedItem();
-
-        CourseDAO.updateCourse(courseName, courseNumber, subject, introductionText, difficulty);
-
+        String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
+    
+        CourseDAO.updateCourse(courseName, courseNumber, subject, introductionText, difficulty, selectedModule);
+    
         clear();
         showCourse();
     }
-
+    
     public void setText() {
         System.out.println("Set Text Course");
 

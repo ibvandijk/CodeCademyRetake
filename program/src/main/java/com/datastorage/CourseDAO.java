@@ -90,11 +90,13 @@ public class CourseDAO {
         return courseNamesList;
     }
 
-    public static void insertCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty) {
+
+    public static void insertCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty, String selectedModule) {
         
         try {
             Connection conn = SQLServerDatabase.getDatabase().getConnection();
             String query = "INSERT INTO Course VALUES (?, ?, ?, ?, ?)";
+            String updateQuery = "UPDATE Module SET CourseName = ? WHERE ModuleTitle = ?";
             
             PreparedStatement stm = conn.prepareStatement(query);
 
@@ -105,10 +107,17 @@ public class CourseDAO {
             stm.setString(5, difficulty);
 
             stm.execute();
+
+            PreparedStatement updateStm = conn.prepareStatement(updateQuery);
+            updateStm.setString(1, courseName);
+            updateStm.setString(2, selectedModule);
+
+            updateStm.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
 
     public static void deleteCourse(String courseName) {
         try {
@@ -123,26 +132,34 @@ public class CourseDAO {
         }
     }
 
-    public static void updateCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty) {
+    public static void updateCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty, String selectedModule) {
         System.out.println("Update Course Called");
         try {
             Connection conn = SQLServerDatabase.getDatabase().getConnection();
-            String query = "UPDATE COURSE SET CourseName = ?, CourseNumber= ?, Subject= ?, IntroductionText= ?, Difficulty= ? WHERE CourseName= ?";
-
-            try (PreparedStatement stm = conn.prepareStatement(query)) {
-                stm.setString(1, courseName);
-                stm.setInt(2, courseNumber);
-                stm.setString(3, subject);
-                stm.setString(4, introductionText);
-                stm.setString(5, difficulty);
-                stm.setString(6, courseName);
-
-                stm.execute();
+            
+            String updateCourseQuery = "UPDATE COURSE SET CourseName = ?, CourseNumber= ?, Subject= ?, IntroductionText= ?, Difficulty= ? WHERE CourseName= ?";
+            try (PreparedStatement updateCourseStm = conn.prepareStatement(updateCourseQuery)) {
+                updateCourseStm.setString(1, courseName);
+                updateCourseStm.setInt(2, courseNumber);
+                updateCourseStm.setString(3, subject);
+                updateCourseStm.setString(4, introductionText);
+                updateCourseStm.setString(5, difficulty);
+                updateCourseStm.setString(6, courseName);
+                updateCourseStm.executeUpdate();
             }
+            
+            String updateModuleQuery = "UPDATE Module SET CourseName = ? WHERE ModuleTitle = ?";
+            try (PreparedStatement updateModuleStm = conn.prepareStatement(updateModuleQuery)) {
+                updateModuleStm.setString(1, courseName);
+                updateModuleStm.setString(2, selectedModule);
+                updateModuleStm.executeUpdate();
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
 
     public static List<String> getModuleNames() {
         List<String> moduleNames = new ArrayList<>();
