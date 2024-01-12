@@ -87,7 +87,7 @@ public class CourseDetailController {
         lblCourseNumber.setText(String.valueOf(selectedCourse.getCourseNumber()));
         lblSubject.setText(selectedCourse.getSubject());
         lblIntroductionText.setText(selectedCourse.getIntroductionText());
-        lblDifficulty.setText(selectedCourse.getDifficulty());
+        lblDifficulty.setText(selectedCourse.getDifficulty().name()); 
     }
 
     private void updateModuleDetails(Module module) {

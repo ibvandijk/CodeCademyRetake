@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import com.datastorage.CourseDAO;
 import com.domain.Course;
+import com.domain.Difficulty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -107,7 +108,11 @@ public class CourseController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         showCourse();
         cbModuleNames.setItems(FXCollections.observableArrayList(CourseDAO.getModuleNames()));
-        cbDifficulty.setItems(FXCollections.observableArrayList("Beginner", "Intermediate", "Expert"));
+            cbDifficulty.setItems(FXCollections.observableArrayList(
+            Difficulty.Beginner.name(),
+            Difficulty.Intermediate.name(),
+            Difficulty.Expert.name()
+    ));
     }
 
     public void showCourse() {
@@ -124,7 +129,7 @@ public class CourseController implements Initializable {
     private void insertCourse() {
         System.out.println("Insert Course method called");
     
-        String difficulty = cbDifficulty.getSelectionModel().getSelectedItem();
+        Difficulty difficulty = Difficulty.valueOf(cbDifficulty.getSelectionModel().getSelectedItem());
         String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
     
         CourseDAO.insertCourse(
@@ -157,7 +162,7 @@ public class CourseController implements Initializable {
         int courseNumber = Integer.parseInt(tfCoursenumber.getText());
         String subject = tfSubject.getText();
         String introductionText = tfIntroductiontext.getText();
-        String difficulty = cbDifficulty.getSelectionModel().getSelectedItem();
+        Difficulty difficulty = Difficulty.valueOf(cbDifficulty.getSelectionModel().getSelectedItem());
         String selectedModule = cbModuleNames.getSelectionModel().getSelectedItem();
     
         CourseDAO.updateCourse(courseName, courseNumber, subject, introductionText, difficulty, selectedModule);
@@ -175,7 +180,7 @@ public class CourseController implements Initializable {
         tfCoursenumber.setText(Integer.toString(selectedCourse.getCourseNumber()));
         tfSubject.setText(tvCourses.getSelectionModel().getSelectedItem().getSubject());
         tfIntroductiontext.setText(tvCourses.getSelectionModel().getSelectedItem().getIntroductionText());
-        cbDifficulty.getSelectionModel().select(tvCourses.getSelectionModel().getSelectedItem().getDifficulty());        
+        cbDifficulty.getSelectionModel().select(selectedCourse.getDifficulty().toString());
     }
 
     public void clear() {

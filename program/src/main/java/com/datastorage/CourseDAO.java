@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.verdictdb.commons.DBTablePrinter;
 import com.domain.Course;
+import com.domain.Difficulty;
 import com.domain.Module;
 
 public class CourseDAO {
@@ -58,7 +59,7 @@ public class CourseDAO {
                         rs.getInt("courseNumber"),
                         rs.getString("Subject"),
                         rs.getString("IntroductionText"),
-                        rs.getString("Difficulty"));
+                        Difficulty.valueOf(rs.getString("Difficulty")));
 
                 courses.add(course);
             }
@@ -93,7 +94,7 @@ public class CourseDAO {
     }
 
 
-    public static void insertCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty, String selectedModule) {
+    public static void insertCourse(String courseName, int courseNumber, String subject, String introductionText, Difficulty difficulty, String selectedModule) {
         System.out.println("Insert Course Called");
 
         try {
@@ -107,7 +108,7 @@ public class CourseDAO {
             stm.setInt(2, courseNumber);
             stm.setString(3, subject);
             stm.setString(4, introductionText);
-            stm.setString(5, difficulty);
+            stm.setString(5, difficulty.name());
 
             stm.execute();
 
@@ -138,7 +139,7 @@ public class CourseDAO {
         }
     }
 
-    public static void updateCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty, String selectedModule) {
+    public static void updateCourse(String courseName, int courseNumber, String subject, String introductionText, Difficulty difficulty, String selectedModule) {
         System.out.println("Update Course Called");
         try {
             Connection conn = SQLServerDatabase.getDatabase().getConnection();
@@ -149,7 +150,7 @@ public class CourseDAO {
                 updateCourseStm.setInt(2, courseNumber);
                 updateCourseStm.setString(3, subject);
                 updateCourseStm.setString(4, introductionText);
-                updateCourseStm.setString(5, difficulty);
+                updateCourseStm.setString(5, difficulty.name());
                 updateCourseStm.setString(6, courseName);
                 updateCourseStm.executeUpdate();
             }

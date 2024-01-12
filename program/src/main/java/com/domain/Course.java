@@ -6,17 +6,14 @@ public class Course {
     private int courseNumber;
     private String subject;
     private String introductionText;
-    private String difficulty;
+    private Difficulty difficulty;
 
-    public Course(String courseName, int courseNumber, String subject, String introductionText, String string) {
+    public Course(String courseName, int courseNumber, String subject, String introductionText, Difficulty difficulty) {
         this.courseName = courseName;
         this.courseNumber = courseNumber;
         this.subject = subject;
         this.introductionText = introductionText;
-        this.difficulty = string;
-    }
-
-    public static void main(String[] Args) {
+        this.difficulty = difficulty;
     }
 
     // Getters en Setters
@@ -52,11 +49,11 @@ public class Course {
         this.introductionText = introductionText;
     }
 
-    public String getDifficulty() {
+    public Difficulty getDifficulty() {
         return this.difficulty;
     }
 
-    public void setDifficulty(String difficulty) {
+    public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
 }
