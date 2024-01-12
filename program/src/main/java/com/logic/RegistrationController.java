@@ -94,10 +94,14 @@ public class RegistrationController implements Initializable {
             if (validateInput()) {
                 updateRegistration();
                 isClicked = false;
+                tfEmails.setDisable(false);
+                tfCourses.setDisable(false);
             }
         }
         else if (event.getSource() == btnUpdate && !isClicked) {
             isClicked = true;
+            tfEmails.setDisable(true);
+            tfCourses.setDisable(true);
             setText();
         }
     }
