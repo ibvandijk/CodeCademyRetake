@@ -92,10 +92,12 @@ public class CourseController implements Initializable {
             isClicked = true;
             setText();
             cbModuleNames.setDisable(true);
+            tfCoursename.setDisable(true);
         } else if (event.getSource() == btnUpdate && isClicked) {
             updateCourse();
             isClicked = false;
             cbModuleNames.setDisable(false);
+            tfCoursename.setDisable(false);
         }
         if (event.getSource() == btnViewCourse) {
             toCourseDetails();

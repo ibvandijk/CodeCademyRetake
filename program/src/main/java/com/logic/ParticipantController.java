@@ -125,11 +125,13 @@ public class ParticipantController implements Initializable {
             if (validateInput()) {
                 updateParticipant();
                 isClicked = false;
+                tfEmail.setDisable(false);
             }
         }
         else if (event.getSource() == btnUpdate && !isClicked) {
             isClicked = true;
             setText();
+            tfEmail.setDisable(true);
         }
         else if(event.getSource() == btnBack) {
             backToHome();
