@@ -68,12 +68,15 @@ public class CourseDetailController {
 
     private void updateModuleDetails(Module module) {
         System.out.println("Fill up Module Details table");
-
+    
         lblModuleTitle.setText(module.getModuleTitle());
         lblModuleVersion.setText(module.getVersion());
         lblModuleDescription.setText(module.getModuleDescription());
         lblContactPersonName.setText(module.getContactPersonName());
         lblContactPersonEmail.setText(module.getContactPersonEmail());
-        lblAverageProgress.setText(String.format("%.2f%%", module.getAverageProgress()));
+    
+        double averageProgress = CourseDAO.getAverageProgressPercentageForModule(module.getModuleTitle());
+        
+        lblAverageProgress.setText(String.format("%.2f%%", averageProgress));
     }
 }

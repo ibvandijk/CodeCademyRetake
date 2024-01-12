@@ -71,6 +71,8 @@ public class CourseDAO {
 
 
     public static ObservableList<String> getCourseNames() {
+        System.out.println("Get all CourseNames Called");
+
         ObservableList<String> courseNamesList = FXCollections.observableArrayList();
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "SELECT CourseName FROM Course;";
@@ -92,7 +94,8 @@ public class CourseDAO {
 
 
     public static void insertCourse(String courseName, int courseNumber, String subject, String introductionText, String difficulty, String selectedModule) {
-        
+        System.out.println("Insert Course Called");
+
         try {
             Connection conn = SQLServerDatabase.getDatabase().getConnection();
             String query = "INSERT INTO Course VALUES (?, ?, ?, ?, ?)";
@@ -120,6 +123,8 @@ public class CourseDAO {
     
 
     public static void deleteCourse(String courseName) {
+        System.out.println("Delete Course Called");
+
         try {
             Connection conn = SQLServerDatabase.getDatabase().getConnection();
 
@@ -163,6 +168,8 @@ public class CourseDAO {
     
 
     public static List<String> getModuleNames() {
+        System.out.println("Get ModuleNames Called");
+
         List<String> moduleNames = new ArrayList<>();
         Connection conn = SQLServerDatabase.getDatabase().getConnection();
         String query = "SELECT ModuleTitle FROM Module WHERE CourseName IS NULL";
@@ -182,6 +189,8 @@ public class CourseDAO {
 
     // CourseDetails GetModules by the coursename
     public static ObservableList<Module> getModulesForCourse(String courseName) {
+        System.out.println("Get Modules of a course called");
+
         ObservableList<Module> modules = FXCollections.observableArrayList();
 
         try  {
@@ -212,6 +221,8 @@ public class CourseDAO {
 
     // CourseDetails Fetch the percentage of courses finished
     public static int getStudentsCompletedForCourse(String courseName) {
+        System.out.println("Number of participants Course completed Called");
+
         int studentsCompleted = 0;
 
         try {
@@ -227,7 +238,7 @@ public class CourseDAO {
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
-                    studentsCompleted = result.getInt("AantalCursisten");
+                studentsCompleted = result.getInt("AantalCursisten");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -237,4 +248,31 @@ public class CourseDAO {
 
         return studentsCompleted;
     }
+
+    // Coursedetails the average progress in percentage of a Module
+    public static double getAverageProgressPercentageForModule(String moduleTitle) {
+        System.out.println("Average Percentage Module Called");
+    
+        double averageProgressPercentage = 0.0;
+    
+        try {
+            Connection conn = SQLServerDatabase.getDatabase().getConnection();
+            String query = "SELECT AVG(asen.ViewPercentage) AS AverageProgressPercentage " +
+                           "FROM CodeAcademyOffice.dbo.AmountSeen asen " +
+                           "JOIN CodeAcademyOffice.dbo.ContentItem ci ON asen.ContentItemID = ci.ContentItemID " +
+                           "WHERE ci.ModuleTitle = ?";
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, moduleTitle);
+            ResultSet rs = st.executeQuery();
+    
+            while (rs.next()) {
+                averageProgressPercentage = rs.getDouble("AverageProgressPercentage");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return averageProgressPercentage;
+    }
+    
 }
