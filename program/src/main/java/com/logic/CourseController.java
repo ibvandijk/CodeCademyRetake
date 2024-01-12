@@ -139,8 +139,7 @@ public class CourseController implements Initializable {
     public void deleteCourse() {
         System.out.println("Delete Course method called");
 
-        String selectedCourseName = tvCourses.getSelectionModel().getSelectedItem().getCourseName();
-            
+        String selectedCourseName = tvCourses.getSelectionModel().getSelectedItem().getCourseName();            
             
         CourseDAO.deleteCourse(selectedCourseName);
 
@@ -172,7 +171,7 @@ public class CourseController implements Initializable {
         tfCoursenumber.setText(Integer.toString(selectedCourse.getCourseNumber()));
         tfSubject.setText(tvCourses.getSelectionModel().getSelectedItem().getSubject());
         tfIntroductiontext.setText(tvCourses.getSelectionModel().getSelectedItem().getIntroductionText());
-        cbDifficulty.getSelectionModel().select(tvCourses.getSelectionModel().getSelectedItem().getDifficulty());
+        cbDifficulty.getSelectionModel().select(tvCourses.getSelectionModel().getSelectedItem().getDifficulty());        
     }
 
     public void clear() {

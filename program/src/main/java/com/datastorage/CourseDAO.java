@@ -122,11 +122,12 @@ public class CourseDAO {
     public static void deleteCourse(String courseName) {
         try {
             Connection conn = SQLServerDatabase.getDatabase().getConnection();
-            String query = "DELETE FROM Course where CourseName = ?";
-            PreparedStatement stm = conn.prepareStatement(query);
 
-            stm.setString(1, courseName);
-            stm.execute();
+            String deleteCourseQuery = "DELETE FROM Course WHERE CourseName = ?";
+            PreparedStatement deleteCourseStm = conn.prepareStatement(deleteCourseQuery);
+            deleteCourseStm.setString(1, courseName);
+            deleteCourseStm.execute();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
